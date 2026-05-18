@@ -20,7 +20,20 @@ export function PortfolioPage() {
           <p className="eyebrow">Navigation</p>
           <h2>島を選んで，関心のあるページへ。</h2>
         </div>
-        <HeroScene />
+
+        <div className={styles.sceneFrame}>
+          <HeroScene />
+          <div className={styles.dragHint} aria-hidden="true">
+            <div className={styles.dragGlyph}>
+              <span className={styles.dragArrowUp}>↑</span>
+              <span className={styles.dragArrowLeft}>←</span>
+              <span className={styles.dragDot} />
+              <span className={styles.dragArrowRight}>→</span>
+              <span className={styles.dragArrowDown}>↓</span>
+            </div>
+            <p>Drag to look around</p>
+          </div>
+        </div>
       </ScrollReveal>
 
       <ScrollReveal className={styles.counterSection}>

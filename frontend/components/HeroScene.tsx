@@ -58,7 +58,7 @@ const islands: IslandConfig[] = [
     external: false,
     position: getRingPosition(0, ringRadius),
     visualSize: 2.65,
-    yawOffset: -0.35,
+    yawOffset: 0,
   },
   {
     id: 'research',
@@ -69,7 +69,7 @@ const islands: IslandConfig[] = [
     external: false,
     position: getRingPosition(1, ringRadius),
     visualSize: 2.65,
-    yawOffset: 0,
+    yawOffset: 1.7,
   },
   {
     id: 'project',
@@ -80,7 +80,7 @@ const islands: IslandConfig[] = [
     external: false,
     position: getRingPosition(2, ringRadius),
     visualSize: 2.65,
-    yawOffset: -0.9,
+    yawOffset: 0,
   },
   {
     id: 'github',
@@ -91,7 +91,7 @@ const islands: IslandConfig[] = [
     external: true,
     position: getRingPosition(3, ringRadius),
     visualSize: 2.65,
-    yawOffset: -0.45,
+    yawOffset: 0,
   },
   {
     id: 'contact',
@@ -102,7 +102,7 @@ const islands: IslandConfig[] = [
     external: false,
     position: getRingPosition(4, ringRadius),
     visualSize: 2.65,
-    yawOffset: 0.45,
+    yawOffset: 0,
   },
   {
     id: 'server',
@@ -113,7 +113,7 @@ const islands: IslandConfig[] = [
     external: false,
     position: getRingPosition(5, ringRadius),
     visualSize: 2.65,
-    yawOffset: 0.95,
+    yawOffset: 0.0,
   },
 ]
 
@@ -300,7 +300,7 @@ function SelectedPanel({
   }
 
   return (
-    <aside className={styles.objectPopup} aria-live="polite">
+    <aside key={selected.id} className={`${styles.objectPopup} ${styles.objectPopupSelected}`} aria-live="polite">
       <button
         type="button"
         onClick={onClose}
