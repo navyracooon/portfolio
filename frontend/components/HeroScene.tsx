@@ -1,11 +1,12 @@
 'use client'
 
-import { Environment, Float, Html, OrbitControls, Stars, useCursor, useGLTF, useProgress } from '@react-three/drei'
+import { Environment, Float, Html as DreiHtml, OrbitControls, Stars, useCursor, useGLTF, useProgress } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import Link from 'next/link'
 import { Suspense, useMemo, useState } from 'react'
 import type { ThreeEvent } from '@react-three/fiber'
 import { Box3, Group, Vector3 } from 'three'
+import { recordIslandClick } from '@/lib/interactions'
 
 type IslandId = 'about' | 'career' | 'research' | 'project' | 'server' | 'github' | 'contact'
 
@@ -119,7 +120,7 @@ function LoadingLabel() {
   const { progress } = useProgress()
 
   return (
-    <Html center>
+    <DreiHtml center>
       <div
         style={{
           padding: '10px 14px',
@@ -133,13 +134,13 @@ function LoadingLabel() {
       >
         Loading {Math.round(progress)}%
       </div>
-    </Html>
+    </DreiHtml>
   )
 }
 
 function IslandLabel({ title, visible }: { title: string; visible: boolean }) {
   return (
-    <Html
+    <DreiHtml
       center
       position={[0, 2.2, 0]}
       distanceFactor={8}
@@ -165,7 +166,7 @@ function IslandLabel({ title, visible }: { title: string; visible: boolean }) {
       >
         {title}
       </div>
-    </Html>
+    </DreiHtml>
   )
 }
 
@@ -338,6 +339,11 @@ function SelectedPanel({
 export function HeroScene() {
   const [selected, setSelected] = useState<IslandConfig | null>(null)
 
+  function handleSelect(island: IslandConfig) {
+    setSelected(island)
+    void recordIslandClick({ islandId: island.id, href: island.href }).catch(() => undefined)
+  }
+
   return (
     <div className="scene-shell village-shell">
       <div className="hero-canvas village-canvas">
@@ -354,7 +360,7 @@ export function HeroScene() {
           <Stars radius={48} depth={22} count={700} factor={2.2} saturation={0} fade speed={0.25} />
 
           <Suspense fallback={<LoadingLabel />}>
-            <IslandField selected={selected} onSelect={setSelected} />
+            <IslandField selected={selected} onSelect={handleSelect} />
             <Environment preset="city" />
           </Suspense>
 

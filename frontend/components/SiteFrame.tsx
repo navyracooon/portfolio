@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
+import { PageViewTracker } from '@/components/PageViewTracker';
 import { primaryNavItems } from '@/lib/siteNavigation';
 
 function isActive(pathname: string, href: string) {
@@ -39,6 +40,7 @@ export function SiteFrame({ children }: PropsWithChildren) {
 
   return (
     <>
+      <PageViewTracker />
       <header className="topbar">
         <Link href="/" className="topbar-brand" aria-label="navyracooon portfolio home">
           navyracooon

@@ -57,16 +57,6 @@ export const portfolioObjects: PortfolioObjectConfig[] = [
     githubUrl: "https://github.com/navyracooon/portfolio",
   },
   {
-    slug: "articles",
-    title: "Articles",
-    description: "Technical notes and implementation records",
-    targetType: "navigation",
-    href: "/articles",
-    technologies: ["Web", "Backend", "Infrastructure"],
-    position: [-3.5, 0, -1.65],
-    sceneKind: "sign",
-  },
-  {
     slug: "contact",
     title: "Contact",
     description: "Contact form",

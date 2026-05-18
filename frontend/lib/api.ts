@@ -1,13 +1,11 @@
-import type { Article, PortfolioPayload, Project } from "@/lib/types";
-
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+import type { PortfolioPayload, Project } from "@/lib/types";
 
 const fallbackPortfolio: PortfolioPayload = {
   profile: {
     name: "Navy Racooon",
     role: "Creative Developer / Full-Stack Engineer",
     intro:
-      "Three.js を単なる装飾ではなく、プロジェクトや記事への入口として扱うポートフォリオ。クリック操作は FastAPI に記録しつつ、行動データで導線そのものは歪めない設計にしています。",
+      "Three.js を単なる装飾ではなく、各詳細ページへの入口として扱うポートフォリオ。クリック操作は FastAPI に記録しつつ、行動データで導線そのものは歪めない設計にしています。",
     location: "Tokyo, Japan",
     focus: "3D entry points without behavior-driven ranking",
   },
@@ -36,7 +34,6 @@ const fallbackPortfolio: PortfolioPayload = {
         "プロジェクト入口として 3D オブジェクトを固定配置",
         "クリック数は導線順位に使わず、概要ポップアップ表示にのみ利用",
       ],
-      article_slugs: ["3d-ui-information-architecture"],
       github_url: "https://github.com/navyracooon/panda-app",
     },
     {
@@ -45,21 +42,20 @@ const fallbackPortfolio: PortfolioPayload = {
       summary: "Next.js、FastAPI、Three.js で構成した公開用ポートフォリオ Web アプリケーション。",
       impact: "フロントエンド表現、イベント記録、公開 API、運用設計を一つの体験として説明できる構成に整理。",
       overview:
-        "固定配置の 3D オブジェクトをプロジェクト・記事・問い合わせの入口として使い、操作イベントはバックエンドに記録する。一方で、行動データによるランキングやサイズ変更は行わず、情報設計の主導権を UI 側に残す。",
+        "固定配置の 3D オブジェクトをプロジェクト・問い合わせの入口として使い、操作イベントはバックエンドに記録する。一方で、行動データによるランキングやサイズ変更は行わず、情報設計の主導権を UI 側に残す。",
       role: "Frontend / Backend / UX / Infra design",
       year: 2026,
       stack: ["Next.js", "FastAPI", "Three.js", "TypeScript", "Caddy"],
       highlights: [
         "3D オブジェクトクリックで概要ポップアップを表示",
         "匿名 session_id 付きで interaction events を送信",
-        "通常の Projects / Articles / Contact 一覧も別途用意",
+        "通常の Projects と Contact 導線も別途用意",
       ],
       operations: [
         "公開 API と内部サービスの責務を分離",
         "操作回数はポップアップ表示と控えめな glow のみに反映",
         "内部サーバ情報を公開 UI に出さない",
       ],
-      article_slugs: ["public-private-boundary", "caddy-compose-routing"],
       github_url: "https://github.com/navyracooon/portfolio",
     },
     {
@@ -74,14 +70,13 @@ const fallbackPortfolio: PortfolioPayload = {
       stack: ["Python", "Optimization", "Control"],
       highlights: [
         "研究活動をポートフォリオ文脈に接続できる粒度で整理",
-        "実験・実装・技術記事を横断して説明可能",
+        "実験・実装メモを横断して説明可能",
         "3D UI から研究背景へ直接遷移できる入口として配置",
       ],
       operations: [
         "研究内容を内部情報や未公開データと混同しない",
         "公開可能な情報だけでストーリーを構成",
       ],
-      article_slugs: ["public-private-boundary"],
       github_url: "https://github.com/navyracooon/research-notes",
     },
     {
@@ -103,7 +98,6 @@ const fallbackPortfolio: PortfolioPayload = {
         "見た目よりも継続運用と更新しやすさを優先",
         "ローカル環境構成も公開できる範囲だけ切り出して整理",
       ],
-      article_slugs: ["3d-ui-information-architecture"],
       github_url: "https://github.com/navyracooon/dotfiles",
     },
     {
@@ -125,38 +119,7 @@ const fallbackPortfolio: PortfolioPayload = {
         "内部サービスの詳細や管理 URL は公開 UI に出さない",
         "公開アプリとして説明すべき範囲を限定している",
       ],
-      article_slugs: ["public-private-boundary", "caddy-compose-routing"],
       github_url: "https://github.com/navyracooon/portfolio",
-    },
-  ],
-  articles: [
-    {
-      slug: "public-private-boundary",
-      title: "公開ポートフォリオと内部サービスの境界をどう切るか",
-      summary:
-        "同じ自宅サーバ上で複数サービスを動かしていても、公開アプリとして見せる責務は分けるべきという整理。",
-      published_at: "2026-05-18",
-      reading_time: "5 min",
-      tags: ["Architecture", "Security", "Home Server"],
-      body: ["公開ポートフォリオで見せるべきなのは、内部情報そのものではなく、公開範囲を制御している設計判断です。"],
-    },
-    {
-      slug: "caddy-compose-routing",
-      title: "Caddy と Docker Compose で公開サービスを束ねる",
-      summary: "ホスト名ごとにコンテナを振り分け、アプリの内部ポートを外へ直接出さない構成の要点。",
-      published_at: "2026-05-18",
-      reading_time: "6 min",
-      tags: ["Caddy", "Docker Compose", "HTTPS"],
-      body: ["外部から到達できる入り口は Caddy の 80/443 のみに寄せ、各アプリケーションの実ポートは Docker network 内に閉じます。"],
-    },
-    {
-      slug: "3d-ui-information-architecture",
-      title: "3D UI を情報導線として成立させる",
-      summary: "演出の強さを維持しながら、記事や制作実績に自然に遷移できる導線を作る考え方。",
-      published_at: "2026-05-18",
-      reading_time: "4 min",
-      tags: ["Three.js", "UX", "Frontend"],
-      body: ["各オブジェクトを project / article / contact への固定入口として扱い、クリック時に概要ポップアップを出す構成にしました。"],
     },
   ],
   infrastructure: [
@@ -167,40 +130,14 @@ const fallbackPortfolio: PortfolioPayload = {
   ],
 };
 
-async function getJson<T>(path: string, fallback: T): Promise<T> {
-  try {
-    const response = await fetch(`${apiBaseUrl}${path}`, {
-      next: { revalidate: 60 },
-    });
-
-    if (!response.ok) {
-      return fallback;
-    }
-
-    return (await response.json()) as T;
-  } catch {
-    return fallback;
-  }
-}
-
 export async function getPortfolioData(): Promise<PortfolioPayload> {
-  return getJson("/portfolio", fallbackPortfolio);
+  return fallbackPortfolio;
 }
 
 export async function getProjects(): Promise<Project[]> {
-  return getJson("/projects", fallbackPortfolio.projects);
+  return fallbackPortfolio.projects;
 }
 
 export async function getProject(slug: string): Promise<Project | null> {
-  const project = fallbackPortfolio.projects.find((item) => item.slug === slug) ?? null;
-  return getJson(`/projects/${slug}`, project);
-}
-
-export async function getArticles(): Promise<Article[]> {
-  return getJson("/articles", fallbackPortfolio.articles);
-}
-
-export async function getArticle(slug: string): Promise<Article | null> {
-  const article = fallbackPortfolio.articles.find((item) => item.slug === slug) ?? null;
-  return getJson(`/articles/${slug}`, article);
+  return fallbackPortfolio.projects.find((item) => item.slug === slug) ?? null;
 }

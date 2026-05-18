@@ -17,30 +17,18 @@ export type Project = {
   stack: string[];
   highlights: string[];
   operations: string[];
-  article_slugs: string[];
   github_url?: string | null;
   live_url?: string | null;
-};
-
-export type Article = {
-  slug: string;
-  title: string;
-  summary: string;
-  published_at: string;
-  reading_time: string;
-  tags: string[];
-  body: string[];
 };
 
 export type PortfolioPayload = {
   profile: Profile;
   strengths: string[];
   projects: Project[];
-  articles: Article[];
   infrastructure: string[];
 };
 
-export type ObjectTargetType = "project" | "article" | "navigation" | "contact";
+export type ObjectTargetType = "project" | "navigation" | "contact";
 
 export type PortfolioObjectConfig = {
   slug: string;
@@ -54,14 +42,14 @@ export type PortfolioObjectConfig = {
   githubUrl?: string;
 };
 
-export type InteractionEventType =
-  | "object_clicked"
-  | "detail_opened"
-  | "contact_opened"
-  | "article_opened";
-
-export type InteractionSummaryItem = {
-  target_slug: string;
-  event_type: string;
+export type MetricsCountItem = {
+  key: string;
   count: number;
+};
+
+export type MetricsSummary = {
+  total_page_views: number;
+  total_island_clicks: number;
+  page_views: MetricsCountItem[];
+  island_clicks: MetricsCountItem[];
 };

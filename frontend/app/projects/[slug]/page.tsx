@@ -61,9 +61,6 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
           <TrackedLink href="/projects" className="button-secondary" eventType="detail_opened" targetType="navigation" targetSlug="projects">
             Back to projects
           </TrackedLink>
-          <TrackedLink href="/articles" className="button-secondary" eventType="article_opened" targetType="navigation" targetSlug="articles">
-            Related articles
-          </TrackedLink>
         </div>
       </section>
     </main>

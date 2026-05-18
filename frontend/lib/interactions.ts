@@ -1,54 +1,57 @@
 "use client";
 
 import { getPortfolioSessionId } from "@/lib/session";
-import type {
-  InteractionEventType,
-  InteractionSummaryItem,
-  ObjectTargetType,
-} from "@/lib/types";
+import type { MetricsSummary } from "@/lib/types";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
-export async function recordInteractionEvent({
-  eventType,
-  targetType,
-  targetSlug,
-}: {
-  eventType: InteractionEventType;
-  targetType: ObjectTargetType;
-  targetSlug: string;
-}) {
-  return fetch(`${apiBaseUrl}/interaction-events`, {
+function analyticsPayload() {
+  return {
+    session_id: getPortfolioSessionId(),
+    path: window.location.pathname,
+    user_agent: window.navigator.userAgent,
+  };
+}
+
+export async function recordPageView(path = window.location.pathname) {
+  return fetch(`${apiBaseUrl}/page-views`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      event_type: eventType,
-      target_type: targetType,
-      target_slug: targetSlug,
-      session_id: getPortfolioSessionId(),
-      path: window.location.pathname,
-      user_agent: window.navigator.userAgent,
+      ...analyticsPayload(),
+      path,
     }),
     keepalive: true,
   });
 }
 
-export async function getInteractionSummary(): Promise<InteractionSummaryItem[]> {
-  const response = await fetch(`${apiBaseUrl}/interaction-events/summary`, {
+export async function recordIslandClick({
+  islandId,
+  href,
+}: {
+  islandId: string;
+  href: string;
+}) {
+  return fetch(`${apiBaseUrl}/island-clicks`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...analyticsPayload(),
+      island_id: islandId,
+      href,
+    }),
+    keepalive: true,
+  });
+}
+
+export async function getMetricsSummary(): Promise<MetricsSummary | null> {
+  const response = await fetch(`${apiBaseUrl}/metrics/summary`, {
     cache: "no-store",
   });
 
   if (!response.ok) {
-    return [];
+    return null;
   }
 
-  return (await response.json()) as InteractionSummaryItem[];
-}
-
-export function getInteractionCount(
-  items: InteractionSummaryItem[],
-  targetSlug: string,
-  eventType = "object_clicked",
-) {
-  return items.find((item) => item.target_slug === targetSlug && item.event_type === eventType)?.count ?? 0;
+  return (await response.json()) as MetricsSummary;
 }

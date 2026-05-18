@@ -2,26 +2,24 @@ from collections import Counter
 from datetime import UTC, datetime
 from threading import Lock
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.data import ARTICLES, PROFILE, PROJECTS, STRENGTHS
 from app.schemas import (
-    Article,
     ContactRequest,
     ContactResponse,
-    InteractionEventRequest,
-    InteractionEventResponse,
-    InteractionEventSummaryItem,
-    PortfolioResponse,
-    Profile,
-    Project,
+    CountItem,
+    IslandClickRequest,
+    IslandClickResponse,
+    MetricsSummaryResponse,
+    PageViewRequest,
+    PageViewResponse,
 )
 
 app = FastAPI(
     title="Portfolio API",
-    version="0.3.0",
-    description="Public content, contact, and interaction event APIs for the portfolio frontend.",
+    version="0.5.0",
+    description="Contact handling and lightweight portfolio analytics API.",
 )
 
 app.add_middleware(
@@ -35,51 +33,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-_interaction_lock = Lock()
-_interaction_events = [
-    {
-        "id": 1,
-        "event_type": "object_clicked",
-        "target_type": "project",
-        "target_slug": "portfolio",
-        "session_id": "seed-session",
-        "path": "/",
-        "user_agent": "seed",
-        "created_at": "2026-05-18T12:00:00Z",
-    },
-    {
-        "id": 2,
-        "event_type": "object_clicked",
-        "target_type": "project",
-        "target_slug": "panda-app",
-        "session_id": "seed-session",
-        "path": "/",
-        "user_agent": "seed",
-        "created_at": "2026-05-18T12:01:00Z",
-    },
-    {
-        "id": 3,
-        "event_type": "object_clicked",
-        "target_type": "project",
-        "target_slug": "panda-app",
-        "session_id": "seed-session-2",
-        "path": "/",
-        "user_agent": "seed",
-        "created_at": "2026-05-18T12:02:00Z",
-    },
-    {
-        "id": 4,
-        "event_type": "detail_opened",
-        "target_type": "article",
-        "target_slug": "articles",
-        "session_id": "seed-session-3",
-        "path": "/",
-        "user_agent": "seed",
-        "created_at": "2026-05-18T12:03:00Z",
-    },
-]
-_next_event_id = len(_interaction_events) + 1
+_metrics_lock = Lock()
+_page_views: list[dict[str, object]] = []
+_island_clicks: list[dict[str, object]] = []
 _contact_submissions: list[ContactRequest] = []
+_next_page_view_id = 1
+_next_island_click_id = 1
+
+
+def _now_iso() -> str:
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _user_agent(payload_user_agent: str | None, request: Request) -> str | None:
+    return payload_user_agent or request.headers.get("user-agent")
 
 
 @app.get("/health")
@@ -87,94 +54,65 @@ def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.get("/portfolio", response_model=PortfolioResponse)
-def get_portfolio() -> PortfolioResponse:
-    return PortfolioResponse(
-        profile=Profile.model_validate(PROFILE),
-        strengths=STRENGTHS,
-        projects=[Project.model_validate(project) for project in PROJECTS],
-        articles=[Article.model_validate(article) for article in ARTICLES],
-        infrastructure=[
-            "Raspberry Pi 4 上で Docker Compose により複数サービスを管理",
-            "Caddy によるホスト名ベースのルーティングと HTTPS 終端",
-            "Cloudflare DNS と独自ドメインを使った公開運用",
-            "内部サービスは公開 UI に含めず、Docker network 内に閉じる設計",
-        ],
-    )
+@app.post("/page-views", response_model=PageViewResponse)
+def record_page_view(payload: PageViewRequest, request: Request) -> PageViewResponse:
+    global _next_page_view_id
 
-
-@app.get("/projects", response_model=list[Project])
-def get_projects() -> list[Project]:
-    return [Project.model_validate(project) for project in PROJECTS]
-
-
-@app.get("/projects/{slug}", response_model=Project)
-def get_project(slug: str) -> Project:
-    for project in PROJECTS:
-        if project["slug"] == slug:
-            return Project.model_validate(project)
-    raise HTTPException(status_code=404, detail="Project not found")
-
-
-@app.get("/articles", response_model=list[Article])
-def get_articles() -> list[Article]:
-    return [Article.model_validate(article) for article in ARTICLES]
-
-
-@app.get("/articles/{slug}", response_model=Article)
-def get_article(slug: str) -> Article:
-    for article in ARTICLES:
-        if article["slug"] == slug:
-            return Article.model_validate(article)
-    raise HTTPException(status_code=404, detail="Article not found")
-
-
-@app.post("/interaction-events", response_model=InteractionEventResponse)
-def record_interaction_event(
-    payload: InteractionEventRequest, request: Request
-) -> InteractionEventResponse:
-    global _next_event_id
-
-    now = datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
-    user_agent = payload.user_agent or request.headers.get("user-agent")
-
-    with _interaction_lock:
+    with _metrics_lock:
         event = {
-            "id": _next_event_id,
-            "event_type": payload.event_type,
-            "target_type": payload.target_type,
-            "target_slug": payload.target_slug,
-            "session_id": payload.session_id,
+            "id": _next_page_view_id,
             "path": payload.path,
-            "user_agent": user_agent,
-            "created_at": now,
+            "session_id": payload.session_id,
+            "user_agent": _user_agent(payload.user_agent, request),
+            "created_at": _now_iso(),
         }
-        _interaction_events.append(event)
-        _next_event_id += 1
+        _page_views.append(event)
+        _next_page_view_id += 1
 
-    return InteractionEventResponse(
+    return PageViewResponse(
         id=event["id"],
-        event_type=event["event_type"],
-        target_type=event["target_type"],
-        target_slug=event["target_slug"],
+        path=event["path"],
         created_at=event["created_at"],
     )
 
 
-@app.get("/interaction-events/summary", response_model=list[InteractionEventSummaryItem])
-def get_interaction_event_summary() -> list[InteractionEventSummaryItem]:
-    counts = Counter(
-        (event["target_slug"], event["event_type"])
-        for event in _interaction_events
+@app.post("/island-clicks", response_model=IslandClickResponse)
+def record_island_click(payload: IslandClickRequest, request: Request) -> IslandClickResponse:
+    global _next_island_click_id
+
+    with _metrics_lock:
+        event = {
+            "id": _next_island_click_id,
+            "island_id": payload.island_id,
+            "href": payload.href,
+            "session_id": payload.session_id,
+            "path": payload.path,
+            "user_agent": _user_agent(payload.user_agent, request),
+            "created_at": _now_iso(),
+        }
+        _island_clicks.append(event)
+        _next_island_click_id += 1
+
+    return IslandClickResponse(
+        id=event["id"],
+        island_id=event["island_id"],
+        href=event["href"],
+        created_at=event["created_at"],
     )
-    return [
-        InteractionEventSummaryItem(
-            target_slug=target_slug,
-            event_type=event_type,
-            count=count,
-        )
-        for (target_slug, event_type), count in sorted(counts.items())
-    ]
+
+
+@app.get("/metrics/summary", response_model=MetricsSummaryResponse)
+def get_metrics_summary() -> MetricsSummaryResponse:
+    with _metrics_lock:
+        page_view_counts = Counter(str(event["path"]) for event in _page_views)
+        island_click_counts = Counter(str(event["island_id"]) for event in _island_clicks)
+
+    return MetricsSummaryResponse(
+        total_page_views=sum(page_view_counts.values()),
+        total_island_clicks=sum(island_click_counts.values()),
+        page_views=[CountItem(key=key, count=count) for key, count in sorted(page_view_counts.items())],
+        island_clicks=[CountItem(key=key, count=count) for key, count in sorted(island_click_counts.items())],
+    )
 
 
 @app.post("/contact", response_model=ContactResponse)

@@ -6,9 +6,9 @@ export default function ContactPage() {
       <section className="panel contact-panel">
         <div className="section-heading">
           <p className="eyebrow">Contact</p>
-          <h1 className="page-title">公開 API 経由で問い合わせを受ける</h1>
+          <h1 className="page-title">連絡先</h1>
           <p className="lede">
-            問い合わせフォームはポートフォリオの公開機能として分離し、内部向け管理 URL や運用情報は画面に出しません。
+            ポートフォリオの内容，開発経験，研究内容についてのご連絡はこちらからお願いします．内容を確認後，必要に応じて返信します．
           </p>
         </div>
         <ContactForm />
