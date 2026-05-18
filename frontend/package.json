@@ -1,0 +1,26 @@
+{
+  "name": "portfolio-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:docker": "next dev --hostname 0.0.0.0 --port 3000",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.17.10",
+    "framer-motion": "^11.18.2",
+    "next": "^14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.176.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.8.3"
+  }
+}

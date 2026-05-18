@@ -1,0 +1,48 @@
+version: "3"
+
+tasks:
+  dev:
+    desc: フロントエンドとバックエンドをローカルで並列起動
+    deps:
+      - dev:backend
+      - dev:frontend
+
+  dev:frontend:
+    desc: Next.js 開発サーバを起動
+    dir: frontend
+    env:
+      NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8000
+    cmds:
+      - npm run dev
+
+  dev:backend:
+    desc: FastAPI 開発サーバを起動
+    dir: backend
+    cmds:
+      - uv sync
+      - uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+
+  docker:dev:
+    desc: Docker Compose で開発環境を起動
+    cmds:
+      - docker compose up --build
+
+  docker:dev:detached:
+    desc: Docker Compose で開発環境をバックグラウンド起動
+    cmds:
+      - docker compose up --build -d
+
+  docker:down:
+    desc: Docker Compose の開発環境を停止
+    cmds:
+      - docker compose down
+
+  docker:logs:
+    desc: Docker Compose のログを表示
+    cmds:
+      - docker compose logs -f
+
+  docker:build:
+    desc: Docker イメージをビルド
+    cmds:
+      - docker compose build
