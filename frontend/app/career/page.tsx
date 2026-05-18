@@ -1,3 +1,48 @@
+import styles from './CareerPage.module.css';
+
+const careerTimeline = [
+  {
+    period: 'High School',
+    title: '愛知県立岡崎高校',
+    body: '数理系の学習基盤を形成した時期です．現在の工学，情報，数値計算への関心につながる基礎をここで固めました．',
+  },
+  {
+    period: '2022.04 - 2026.03',
+    title: '京都大学 工学部 電気電子工学科',
+    body: '電気電子工学を軸に，数学，物理，情報，制御，数値計算の基礎を学びました．Web 開発だけでなく，研究やシミュレーションを理解するための工学的な土台になっています．',
+  },
+  {
+    period: '2022.05 - Present',
+    title: '株式会社 DeMiA / ソフトウェアエンジニア',
+    body: 'React，Django，React Native（Expo）を用いた Web・モバイルアプリケーション開発に従事しています．SAML / OIDC ベースの SSO 認証機能や，WebSocket を用いたリアルタイムデータ処理機構の実装も担当しました．',
+  },
+  {
+    period: '2022.05 - Present',
+    title: '株式会社 空間精度研究所 / ソフトウェアエンジニア',
+    body: 'React と Django を用いた製品紹介 Web ページのフロントエンドおよびバックエンド開発に従事しています．要件整理から実装までを一貫して担当し，仕様を実装に落とし込む経験を積んでいます．',
+  },
+  {
+    period: '2023.08 - 2023.09',
+    title: '業務委託での社内向けフロントエンド開発',
+    body: 'Next.js を用いて，業務効率化を目的とした社内向けフロントエンドシステムを開発しました．短期間で要件を整理し，実際に使える画面へ落とし込むことを重視しました．',
+  },
+  {
+    period: '2024.10 - 2024.11',
+    title: 'PandA Mobile / 京都大学 LMS 公式モバイルクライアント',
+    body: 'React Native（Expo）を用いて，京都大学の学習管理システムと連携するクロスプラットフォームモバイルアプリを開発しました．京都大学情報環境機構により公式アプリとして承認され，iOS・Android で公開されています．',
+  },
+  {
+    period: '2025.04 - Present',
+    title: 'トカマク炉心プラズマの分布制御シミュレーション',
+    body: '核融合プラズマの温度分布制御問題に対して，輸送シミュレーションコードを用いた数値解析を行っています．FORTRAN で実装されたコードに Python インターフェースを構築し，PID 制御や CMA-ES による最適化を適用しています．',
+  },
+  {
+    period: '2026.04 - 2028.03',
+    title: '京都大学大学院 エネルギー科学研究科 エネルギー基礎科学専攻',
+    body: '修士課程では，エネルギー科学，制御，最適化，科学計算を軸に，研究で扱う問題設定と実装の両方を深めていく予定です．',
+  },
+];
+
 export default function CareerPage() {
   return (
     <main className="page-shell inner-page">
@@ -10,70 +55,17 @@ export default function CareerPage() {
           </p>
         </div>
 
-        <div className="timeline-list">
-          <article className="timeline-item">
-            <span>High School</span>
-            <h2>愛知県立岡崎高校</h2>
-            <p>
-              数理系の学習基盤を形成した時期です．現在の工学，情報，数値計算への関心につながる基礎をここで固めました．
-            </p>
-          </article>
-
-          <article className="timeline-item">
-            <span>2022.04 - 2026.03</span>
-            <h2>京都大学 工学部 電気電子工学科</h2>
-            <p>
-              電気電子工学を軸に，数学，物理，情報，制御，数値計算の基礎を学びました．Web 開発だけでなく，研究やシミュレーションを理解するための工学的な土台になっています．
-            </p>
-          </article>
-
-          <article className="timeline-item">
-            <span>2022.05 - Present</span>
-            <h2>株式会社 DeMiA / ソフトウェアエンジニア</h2>
-            <p>
-              React，Django，React Native（Expo）を用いた Web・モバイルアプリケーション開発に従事しています．SAML / OIDC ベースの SSO 認証機能や，WebSocket を用いたリアルタイムデータ処理機構の実装も担当しました．
-            </p>
-          </article>
-
-          <article className="timeline-item">
-            <span>2022.05 - Present</span>
-            <h2>株式会社 空間精度研究所 / ソフトウェアエンジニア</h2>
-            <p>
-              React と Django を用いた製品紹介 Web ページのフロントエンドおよびバックエンド開発に従事しています．要件整理から実装までを一貫して担当し，仕様を実装に落とし込む経験を積んでいます．
-            </p>
-          </article>
-
-          <article className="timeline-item">
-            <span>2023.08 - 2023.09</span>
-            <h2>業務委託での社内向けフロントエンド開発</h2>
-            <p>
-              Next.js を用いて，業務効率化を目的とした社内向けフロントエンドシステムを開発しました．短期間で要件を整理し，実際に使える画面へ落とし込むことを重視しました．
-            </p>
-          </article>
-
-          <article className="timeline-item">
-            <span>2024.10 - 2024.11</span>
-            <h2>PandA Mobile / 京都大学 LMS 公式モバイルクライアント</h2>
-            <p>
-              React Native（Expo）を用いて，京都大学の学習管理システムと連携するクロスプラットフォームモバイルアプリを開発しました．京都大学情報環境機構により公式アプリとして承認され，iOS・Android で公開されています．
-            </p>
-          </article>
-
-          <article className="timeline-item">
-            <span>2025.04 - Present</span>
-            <h2>トカマク炉心プラズマの分布制御シミュレーション</h2>
-            <p>
-              核融合プラズマの温度分布制御問題に対して，輸送シミュレーションコードを用いた数値解析を行っています．FORTRAN で実装されたコードに Python インターフェースを構築し，PID 制御や CMA-ES による最適化を適用しています．
-            </p>
-          </article>
-
-          <article className="timeline-item">
-            <span>2026.04 - 2028.03</span>
-            <h2>京都大学大学院 エネルギー科学研究科 エネルギー基礎科学専攻</h2>
-            <p>
-              修士課程では，エネルギー科学，制御，最適化，科学計算を軸に，研究で扱う問題設定と実装の両方を深めていく予定です．
-            </p>
-          </article>
+        <div className={styles.careerTimeline} aria-label="Career timeline">
+          {careerTimeline.map((item) => (
+            <article className={styles.careerTimelineItem} key={`${item.period}-${item.title}`}>
+              <div className={styles.careerTimelineDate}>{item.period}</div>
+              <div className={styles.careerTimelineMarker} aria-hidden="true" />
+              <div className={styles.careerTimelineContent}>
+                <h2>{item.title}</h2>
+                <p>{item.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 

@@ -1,0 +1,56 @@
+.contactForm {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.contactForm label {
+  display: grid;
+  gap: 8px;
+  color: #dcefff;
+}
+
+.contactForm input,
+.contactForm textarea {
+  width: 100%;
+  border: 1px solid rgba(127, 216, 255, 0.22);
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: rgba(2, 7, 16, 0.74);
+  color: var(--text);
+}
+
+.contactForm button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 17px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 198, 109, 0.32), rgba(127, 216, 255, 0.14));
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.contactForm button:hover {
+  transform: translateY(-1px);
+}
+
+.contactForm button:disabled {
+  cursor: wait;
+  opacity: 0.66;
+}
+
+.formMessage {
+  margin: 0;
+}
+
+.formMessage.success {
+  color: var(--accent);
+}
+
+.formMessage.error {
+  color: var(--danger);
+}

@@ -1,49 +1,107 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import styles from './FlipCounter.module.css';
 
-function DigitCard({ digit, index }: { digit: string; index: number }) {
+type FlipCounterProps = {
+  value: number;
+  refreshKey: number;
+  label: string;
+  note: string;
+  durationMs?: number;
+};
+
+function formatCounterValue(value: number) {
+  return new Intl.NumberFormat('en-US').format(value);
+}
+
+function createScrambledValue(target: string) {
+  return target
+    .split('')
+    .map((character) => {
+      if (character === ',') {
+        return ',';
+      }
+
+      return String(Math.floor(Math.random() * 10));
+    })
+    .join('');
+}
+
+function DigitCard({ digit, index, refreshKey }: { digit: string; index: number; refreshKey: number }) {
   return (
-    <span className="flip-digit" style={{ animationDelay: `${index * 45}ms` }}>
-      <span key={`${digit}-${index}`} className="flip-digit-face">
+    <span className={styles.flipDigit} style={{ animationDelay: `${index * 45}ms` }}>
+      <span key={`${digit}-${index}-${refreshKey}`} className={styles.flipDigitFace}>
         {digit}
       </span>
     </span>
   );
 }
 
-export function FlipCounter({ value, label, note }: { value: number; label: string; note: string }) {
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    const duration = 1100;
-    const startTime = performance.now();
-    const startValue = displayValue;
-    const diff = value - startValue;
-    let frame = 0;
-
-    function tick(now: number) {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplayValue(Math.round(startValue + diff * eased));
-
-      if (progress < 1) {
-        frame = requestAnimationFrame(tick);
-      }
-    }
-
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
+export function FlipCounter({
+  value,
+  refreshKey,
+  label,
+  note,
+  durationMs = 500,
+}: FlipCounterProps) {
+  const targetValue = useMemo(() => {
+    return formatCounterValue(value);
   }, [value]);
 
-  const digits = useMemo(() => displayValue.toLocaleString('en-US').split(''), [displayValue]);
+  const [displayValue, setDisplayValue] = useState(targetValue);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (durationMs <= 0) {
+      setDisplayValue(targetValue);
+      setIsAnimating(false);
+      return;
+    }
+
+    let timeoutId = 0;
+    const startedAt = performance.now();
+
+    setIsAnimating(true);
+
+    function tick() {
+      const now = performance.now();
+      const elapsed = now - startedAt;
+      const progress = Math.min(elapsed / durationMs, 1);
+
+      if (progress >= 1) {
+        setDisplayValue(targetValue);
+        setIsAnimating(false);
+        return;
+      }
+
+      setDisplayValue(createScrambledValue(targetValue));
+
+      timeoutId = window.setTimeout(tick, 60);
+    }
+
+    tick();
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [targetValue, refreshKey, durationMs]);
+
+  const characters = useMemo(() => displayValue.split(''), [displayValue]);
+  const animationKey = `${refreshKey}-${displayValue}`;
 
   return (
-    <article className="metric-counter-card">
+    <article className={styles.metricCounterCard}>
       <p className="eyebrow">{label}</p>
-      <div className="flip-counter" aria-label={`${label}: ${displayValue.toLocaleString('en-US')}`}>
-        {digits.map((digit, index) =>
-          digit === ',' ? <span key={`comma-${index}`} className="flip-comma">,</span> : <DigitCard key={`${index}-${digit}`} digit={digit} index={index} />,
+      <div className={styles.flipCounter} aria-label={`${label}: ${targetValue}`} aria-busy={isAnimating}>
+        {characters.map((character, index) =>
+          character === ',' ? (
+            <span key={`comma-${index}`} className={styles.flipComma}>
+              ,
+            </span>
+          ) : (
+            <DigitCard key={`${index}-${animationKey}`} digit={character} index={index} refreshKey={refreshKey} />
+          ),
         )}
       </div>
       <p>{note}</p>

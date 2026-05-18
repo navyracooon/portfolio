@@ -6,6 +6,7 @@ import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
 import { PageViewTracker } from '@/components/PageViewTracker';
 import { primaryNavItems } from '@/lib/siteNavigation';
+import styles from './SiteFrame.module.css';
 
 function isActive(pathname: string, href: string) {
   if (href === '/') {
@@ -41,13 +42,13 @@ export function SiteFrame({ children }: PropsWithChildren) {
   return (
     <>
       <PageViewTracker />
-      <header className="topbar">
-        <Link href="/" className="topbar-brand" aria-label="navyracooon portfolio home">
+      <header className={styles.topbar}>
+        <Link href="/" className={styles.topbarBrand} aria-label="navyracooon portfolio home">
           navyracooon
         </Link>
         <button
           type="button"
-          className="menu-toggle"
+          className={styles.menuToggle}
           aria-label={menuOpen ? 'ナビゲーションを閉じる' : 'ナビゲーションを開く'}
           aria-controls="site-sidebar"
           aria-expanded={menuOpen}
@@ -59,19 +60,19 @@ export function SiteFrame({ children }: PropsWithChildren) {
         </button>
       </header>
 
-      {menuOpen ? <div className="sidebar-backdrop sidebar-backdrop-open" onClick={() => setMenuOpen(false)} /> : null}
+      {menuOpen ? <div className={styles.sidebarBackdrop} onClick={() => setMenuOpen(false)} /> : null}
 
-      <div className="app-shell">
+      <div className={styles.appShell}>
         {menuOpen ? (
-          <aside id="site-sidebar" className="sidebar sidebar-open" aria-label="Primary navigation">
-            <div className="sidebar-heading">
+          <aside id="site-sidebar" className={styles.sidebar} aria-label="Primary navigation">
+            <div className={styles.sidebarHeading}>
               <p className="eyebrow">Navigation</p>
-              <button type="button" className="sidebar-close" onClick={() => setMenuOpen(false)} aria-label="ナビゲーションを閉じる">
+              <button type="button" className={styles.sidebarClose} onClick={() => setMenuOpen(false)} aria-label="ナビゲーションを閉じる">
                 Close
               </button>
             </div>
 
-            <nav className="site-nav" aria-label="Portfolio sections">
+            <nav className={styles.siteNav} aria-label="Portfolio sections">
               {primaryNavItems.map((item) => {
                 const active = !item.external && isActive(pathname, item.href);
 
@@ -80,13 +81,13 @@ export function SiteFrame({ children }: PropsWithChildren) {
                     <a
                       key={item.key}
                       href={item.href}
-                      className="nav-link nav-link-external"
+                      className={`${styles.navLink} ${styles.navLinkExternal}`}
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${item.label} を新しいタブで開く`}
                     >
-                      <span className="nav-label">{item.label}</span>
-                      <span className="nav-meta">{item.short} ↗</span>
+                      <span className={styles.navLabel}>{item.label}</span>
+                      <span className={styles.navMeta}>{item.short} ↗</span>
                     </a>
                   );
                 }
@@ -95,25 +96,25 @@ export function SiteFrame({ children }: PropsWithChildren) {
                   <Link
                     key={item.key}
                     href={item.href}
-                    className={active ? 'nav-link nav-link-active' : 'nav-link'}
+                    className={active ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink}
                     aria-current={active ? 'page' : undefined}
                   >
-                    <span className="nav-label">{item.label}</span>
-                    <span className="nav-meta">{active ? 'Current' : item.short}</span>
+                    <span className={styles.navLabel}>{item.label}</span>
+                    <span className={styles.navMeta}>{active ? 'Current' : item.short}</span>
                   </Link>
                 );
               })}
             </nav>
 
-            <p className="sidebar-note">
+            <p className={styles.sidebarNote}>
               3D 操作が使えない場合も、このメニューから全ページへ移動できます。
             </p>
           </aside>
         ) : null}
 
-        <div className="content-shell">
+        <div className={styles.contentShell}>
           {children}
-          <footer className="site-footer">
+          <footer className={styles.siteFooter}>
             <p>Internal service details, private URLs, and node lists are intentionally excluded.</p>
           </footer>
         </div>

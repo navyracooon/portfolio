@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import styles from "./ContactForm.module.css";
 
 type FormState = {
   status: "idle" | "submitting" | "success" | "error";
@@ -44,7 +45,7 @@ export function ContactForm() {
 
   return (
     <form
-      className="contact-form"
+      className={styles.contactForm}
       onSubmit={async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         await handleSubmit(new FormData(event.currentTarget));
@@ -69,7 +70,7 @@ export function ContactForm() {
       <button type="submit" disabled={state.status === "submitting"}>
         {state.status === "submitting" ? "Sending..." : "Send message"}
       </button>
-      {state.message ? <p className={`form-message ${state.status}`}>{state.message}</p> : null}
+      {state.message ? <p className={`${styles.formMessage} ${state.status === "success" ? styles.success : state.status === "error" ? styles.error : ""}`}>{state.message}</p> : null}
     </form>
   );
 }

@@ -7,6 +7,7 @@ import { Suspense, useMemo, useState } from 'react'
 import type { ThreeEvent } from '@react-three/fiber'
 import { Box3, Group, Vector3 } from 'three'
 import { recordIslandClick } from '@/lib/interactions'
+import styles from './HeroScene.module.css'
 
 type IslandId = 'about' | 'career' | 'research' | 'project' | 'server' | 'github' | 'contact'
 
@@ -290,7 +291,7 @@ function SelectedPanel({
 }) {
   if (!selected) {
     return (
-      <aside className="object-popup village-popup" aria-live="polite">
+      <aside className={styles.objectPopup} aria-live="polite">
         <p className="eyebrow">Portfolio Village</p>
         <h3>Floating Islands</h3>
         <p>島をクリックすると，対応するカテゴリを確認できます。</p>
@@ -299,22 +300,11 @@ function SelectedPanel({
   }
 
   return (
-    <aside className="object-popup village-popup" aria-live="polite">
+    <aside className={styles.objectPopup} aria-live="polite">
       <button
         type="button"
         onClick={onClose}
-        style={{
-          position: 'absolute',
-          top: '12px',
-          right: '14px',
-          width: '28px',
-          height: '28px',
-          border: '0',
-          borderRadius: '999px',
-          background: 'rgba(255, 255, 255, 0.12)',
-          color: '#ffffff',
-          cursor: 'pointer',
-        }}
+        className={styles.closeButton}
       >
         ×
       </button>
@@ -345,8 +335,8 @@ export function HeroScene() {
   }
 
   return (
-    <div className="scene-shell village-shell">
-      <div className="hero-canvas village-canvas">
+    <div className={styles.sceneShell}>
+      <div className={`${styles.heroCanvas} ${styles.villageCanvas}`}>
         <Canvas camera={{ position: [0, 4.9, 6.5], fov: 45 }} shadows dpr={[1, 2]}>
           <color attach="background" args={['#050914']} />
           <fog attach="fog" args={['#050914', 12, 27]} />

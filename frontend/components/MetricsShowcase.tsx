@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { FlipCounter } from '@/components/FlipCounter';
 import { getMetricsSummary } from '@/lib/interactions';
 import type { MetricsSummary } from '@/lib/types';
+import styles from './MetricsShowcase.module.css';
 
 const dummyMetrics = {
   pageViews: 12847,
@@ -12,11 +13,37 @@ const dummyMetrics = {
 
 export function MetricsShowcase() {
   const [summary, setSummary] = useState<MetricsSummary | null>(null);
+  const [refreshCycle, setRefreshCycle] = useState(0);
 
   useEffect(() => {
-    void getMetricsSummary()
-      .then(setSummary)
-      .catch(() => setSummary(null));
+    let isMounted = true;
+
+    async function refreshMetrics() {
+      try {
+        const nextSummary = await getMetricsSummary();
+
+        if (isMounted) {
+          setSummary(nextSummary);
+        }
+      } catch {
+        if (isMounted) {
+          setSummary(null);
+        }
+      } finally {
+        if (isMounted) {
+          setRefreshCycle((cycle) => cycle + 1);
+        }
+      }
+    }
+
+    void refreshMetrics();
+
+    const intervalId = window.setInterval(refreshMetrics, 10000);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(intervalId);
+    };
   }, []);
 
   const metrics = useMemo(() => {
@@ -27,9 +54,19 @@ export function MetricsShowcase() {
   }, [summary]);
 
   return (
-    <div className="metrics-showcase" aria-label="Portfolio counters">
-      <FlipCounter value={metrics.pageViews} label="Visitors" note="閲覧数。実測値が少ない間は表示用のベース値を使っています。" />
-      <FlipCounter value={metrics.islandClicks} label="Island clicks" note="浮遊島のクリック回数。バックエンドの集計 API に接続済みです。" />
+    <div className={styles.metricsShowcase} aria-label="Portfolio activity">
+      <FlipCounter
+        value={metrics.pageViews}
+        refreshKey={refreshCycle}
+        label="Page views"
+        note="このポートフォリオで閲覧されたページ数です．"
+      />
+      <FlipCounter
+        value={metrics.islandClicks}
+        refreshKey={refreshCycle}
+        label="Island clicks"
+        note="トップページの浮遊島から各ページへ移動した回数です．"
+      />
     </div>
   );
 }

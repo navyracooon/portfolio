@@ -2,54 +2,57 @@ import { HeroScene } from '@/components/HeroScene';
 import { MetricsShowcase } from '@/components/MetricsShowcase';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { primaryNavItems } from '@/lib/siteNavigation';
+import styles from './PortfolioPage.module.css';
 
 export function PortfolioPage() {
   return (
-    <main className="page-shell home-page">
-      <ScrollReveal className="name-section" >
+    <main className={`page-shell ${styles.homePage}`}>
+      <ScrollReveal className={styles.nameSection}>
         <p className="eyebrow">navyracooon</p>
         <h1 id="welcome-title">Floating islands for technical traces.</h1>
-        <p className="hero-intro">
-          研究、開発、運用を分けて辿れる個人ポートフォリオです。情報は詰め込まず、詳細は各ページへ分離します。
+        <p className={`hero-intro ${styles.nameIntro}`}>
+          研究，開発，運用の経験を，それぞれの文脈に分けて辿れるポートフォリオです．
         </p>
       </ScrollReveal>
 
-      <ScrollReveal className="island-section" >
-        <div className="section-heading island-heading">
-          <p className="eyebrow">Three.js Navigation</p>
-          <h2>島を選ぶ。ページへ進む。</h2>
+      <ScrollReveal className={styles.islandSection}>
+        <div className={`section-heading ${styles.islandHeading}`}>
+          <p className="eyebrow">Navigation</p>
+          <h2>島を選んで，関心のあるページへ。</h2>
         </div>
         <HeroScene />
       </ScrollReveal>
 
-      <ScrollReveal className="counter-section" >
+      <ScrollReveal className={styles.counterSection}>
         <div className="section-heading">
-          <p className="eyebrow">Live-ish metrics</p>
-          <h2>来訪者と島クリック数</h2>
+          <p className="eyebrow">Activity</p>
+          <h2>このサイトでの閲覧と移動</h2>
           <p className="lede">
-            バックエンドは問い合わせ、ページ閲覧、島クリックだけを扱います。数字は実測値が増えるまでダミーベースで表示しています。
+            ページ閲覧数と，トップページの浮遊島から各ページへ移動した回数を表示しています．
           </p>
         </div>
         <MetricsShowcase />
       </ScrollReveal>
 
-      <ScrollReveal className="home-explain-section" >
+      <ScrollReveal className={styles.homeExplainSection}>
         <div className="section-heading">
-          <p className="eyebrow">Structure</p>
-          <h2>トップは入口、詳細はページへ。</h2>
+          <p className="eyebrow">Explore</p>
+          <h2>経歴，研究，制作物，運用経験を見る</h2>
           <p className="lede">
-            3D シーンは装飾ではなく、About、Career、Research、Projects、Server、Contact への入口です。3D 操作が難しい場合も通常の HTML リンクから同じ情報へ到達できます。
+            About，Career，Research，Projects，Server，Contact の各ページに，このポートフォリオの背景と制作物を整理しています．
           </p>
         </div>
-        <div className="fallback-links">
+        <div className={styles.fallbackLinks}>
           {primaryNavItems.map((item) =>
             item.external ? (
-              <a key={item.key} href={item.href} target="_blank" rel="noreferrer" className="fallback-link">
-                {item.label}<span>外部リンク</span>
+              <a key={item.key} href={item.href} target="_blank" rel="noreferrer" className={styles.fallbackLink}>
+                {item.label}
+                <span>外部リンク</span>
               </a>
             ) : (
-              <a key={item.key} href={item.href} className="fallback-link">
-                {item.label}<span>{item.short}</span>
+              <a key={item.key} href={item.href} className={styles.fallbackLink}>
+                {item.label}
+                <span>{item.short}</span>
               </a>
             ),
           )}
