@@ -1,5 +1,5 @@
 export type NavItem = {
-  key: 'about' | 'career' | 'research' | 'projects' | 'server' | 'github' | 'contact';
+  key: 'home' | 'about' | 'career' | 'research' | 'projects' | 'server' | 'github' | 'contact';
   label: string;
   href: string;
   external?: boolean;
@@ -9,6 +9,7 @@ export type NavItem = {
 export const githubUrl = 'https://github.com/navyracooon';
 
 export const primaryNavItems: NavItem[] = [
+  { key: 'home', label: 'Home', href: '/', short: 'Floating islands' },
   { key: 'about', label: 'About', href: '/about', short: 'Site design' },
   { key: 'career', label: 'Career', href: '/career', short: 'Experience' },
   { key: 'research', label: 'Research', href: '/research', short: 'Control / optimization' },
