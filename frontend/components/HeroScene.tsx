@@ -337,12 +337,12 @@ export function HeroScene() {
   return (
     <div className={styles.sceneShell}>
       <div className={`${styles.heroCanvas} ${styles.villageCanvas}`}>
-        <Canvas camera={{ position: [0, 4.9, 6.5], fov: 45 }} shadows dpr={[1, 2]}>
+        <Canvas camera={{ position: [0, 4.9, 6.5], fov: 45 }} dpr={1} frameloop="demand">
           <color attach="background" args={['#050914']} />
           <fog attach="fog" args={['#050914', 12, 27]} />
 
           <ambientLight intensity={0.9} />
-          <directionalLight position={[7, 9, 5]} intensity={2.2} color="#fff4d8" castShadow />
+          <directionalLight position={[7, 9, 5]} intensity={2.2} color="#fff4d8" />
           <pointLight position={[0, 4.2, 0]} intensity={1.4} color="#73d7ff" />
           <pointLight position={[-4, 3.2, 3]} intensity={1.0} color="#f2c98a" />
           <pointLight position={[4, 3.2, -3]} intensity={0.85} color="#9fe8ff" />
