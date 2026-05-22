@@ -11,7 +11,7 @@
 }
 
 .metricCounterCard::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: auto 24px 24px;
   height: 1px;
@@ -42,14 +42,21 @@
   place-items: center;
   border: 1px solid rgba(127, 216, 255, 0.24);
   border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035) 49%, rgba(0, 0, 0, 0.22) 50%, rgba(255, 255, 255, 0.045));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 38px rgba(0, 0, 0, 0.22);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.035) 49%,
+    rgba(0, 0, 0, 0.22) 50%,
+    rgba(255, 255, 255, 0.045)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 18px 38px rgba(0, 0, 0, 0.22);
   overflow: hidden;
 }
 
 .flipDigit::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -62,7 +69,7 @@
 .flipDigitFace {
   display: block;
   color: var(--text);
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: clamp(2.3rem, 5.6vw, 5.5rem);
   font-weight: 700;
   line-height: 1;
@@ -74,7 +81,7 @@
   align-self: end;
   padding-bottom: clamp(8px, 1.4vw, 18px);
   color: var(--accent-warm);
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: clamp(2rem, 4vw, 4rem);
   font-weight: 700;
 }

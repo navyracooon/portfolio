@@ -1,15 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useState } from 'react';
-import { FlipCounter } from '@/components/FlipCounter';
-import { getMetricsSummary } from '@/lib/interactions';
-import type { MetricsSummary } from '@/lib/types';
-import styles from './MetricsShowcase.module.css';
-
-const dummyMetrics = {
-  pageViews: 12847,
-  islandClicks: 936,
-};
+import { useEffect, useMemo, useState } from "react";
+import { FlipCounter } from "@/components/FlipCounter";
+import { getMetricsSummary } from "@/lib/interactions";
+import type { MetricsSummary } from "@/lib/types";
+import styles from "./MetricsShowcase.module.css";
 
 export function MetricsShowcase() {
   const [summary, setSummary] = useState<MetricsSummary | null>(null);
@@ -48,8 +43,8 @@ export function MetricsShowcase() {
 
   const metrics = useMemo(() => {
     return {
-      pageViews: Math.max(summary?.total_page_views ?? 0, dummyMetrics.pageViews),
-      islandClicks: Math.max(summary?.total_island_clicks ?? 0, dummyMetrics.islandClicks),
+      pageViews: summary?.total_page_views ?? 0,
+      islandClicks: summary?.total_island_clicks ?? 0,
     };
   }, [summary]);
 

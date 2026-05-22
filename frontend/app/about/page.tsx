@@ -6,7 +6,9 @@ export default function AboutPage() {
           <p className="eyebrow">About this portfolio</p>
           <h1 className="page-title">3D 表現を情報設計の入口として使う</h1>
           <p className="lede">
-            このページは自己紹介ではなく，ポートフォリオ自体の設計意図を説明する場所です．トップページでは Welcome と浮遊島の Three.js シーンを主役にし，経歴，研究，個人開発，自宅サーバ，GitHub，問い合わせへの導線を 3D と通常の HTML リンクの両方で提供します．
+            このページは自己紹介ではなく，ポートフォリオ自体の設計意図を説明する場所です．トップページでは Welcome
+            と浮遊島の Three.js シーンを主役にし，経歴，研究，個人開発，自宅サーバ，GitHub，問い合わせへの導線を 3D
+            と通常の HTML リンクの両方で提供します．
           </p>
         </div>
 
@@ -21,7 +23,9 @@ export default function AboutPage() {
           <article className="detail-card">
             <h2>トップページの方針</h2>
             <p>
-              初期表示では Welcome テキストと Three.js シーンを中心に置き，説明量を抑えます．各島は about，career，research，projects，server，github，contact に対応し，選択中の島は拡大，ラベル，説明パネルの強調によって状態が分かるようにします．
+              初期表示では Welcome テキストと Three.js シーンを中心に置き，説明量を抑えます．各島は
+              about，career，research，projects，server，github，contact
+              に対応し，選択中の島は拡大，ラベル，説明パネルの強調によって状態が分かるようにします．
             </p>
           </article>
         </div>
@@ -32,7 +36,9 @@ export default function AboutPage() {
           <p className="eyebrow">3D assets</p>
           <h2>Hunyuan3D で生成したモデルを Web の導線として調整する</h2>
           <p className="lede">
-            トップページで使用している一部の 3D アセットは，Tencent Hunyuan3D を用いて生成しています．生成した GLB をそのまま配置するのではなく，Web 上で見やすく，操作しやすく，ページ導線として成立するように，サイズ，向き，配置，ラベル表示を調整しています．
+            トップページで使用している一部の 3D アセットは，Tencent Hunyuan3D を用いて生成しています．生成した GLB
+            をそのまま配置するのではなく，Web
+            上で見やすく，操作しやすく，ページ導線として成立するように，サイズ，向き，配置，ラベル表示を調整しています．
           </p>
         </div>
 
@@ -51,7 +57,9 @@ export default function AboutPage() {
           <article className="detail-card">
             <h2>Disclosure</h2>
             <p>
-              3D アセットの一部には生成 AI による出力を利用しています．一方で，サイト全体の構成，導線設計，モデル配置，インタラクション，ページ遷移，レスポンシブ対応，アクセシビリティ対応は，Web アプリケーションとして設計・実装しています．
+              3D アセットの一部には生成 AI
+              による出力を利用しています．一方で，サイト全体の構成，導線設計，モデル配置，インタラクション，ページ遷移，レスポンシブ対応，アクセシビリティ対応は，Web
+              アプリケーションとして設計・実装しています．
             </p>
           </article>
         </div>
@@ -62,7 +70,9 @@ export default function AboutPage() {
           <p className="eyebrow">Performance tuning</p>
           <h2>生成した GLB を計測し，Web で扱える重さまで最適化する</h2>
           <p className="lede">
-            3D アセットは生成結果をそのまま使うのではなく，glTF Transform でファイルサイズ，頂点数，テクスチャ解像度，GPU メモリ見積もりを確認し，ブラウザ上の実測値を見ながら調整しています．
+            3D アセットは生成結果をそのまま使うのではなく，glTF Transform
+            でファイルサイズ，頂点数，テクスチャ解像度，GPU
+            メモリ見積もりを確認し，ブラウザ上の実測値を見ながら調整しています．
           </p>
         </div>
 
@@ -74,7 +84,10 @@ export default function AboutPage() {
               <li>各モデルには 4096×4096 の PNG テクスチャが 3 枚含まれていた</li>
               <li>1 枚の 4096×4096 テクスチャは GPU メモリ見積もりで約 89.48MB</li>
               <li>1 モデルあたりテクスチャだけで約 268MB，7 モデル合計で約 1.88GB 相当だった</li>
-              <li>メッシュ本体のサイズは各モデル約 1.4〜1.75MB 程度で，主なボトルネックはポリゴン数ではなく高解像度テクスチャだった</li>
+              <li>
+                メッシュ本体のサイズは各モデル約 1.4〜1.75MB
+                程度で，主なボトルネックはポリゴン数ではなく高解像度テクスチャだった
+              </li>
             </ul>
           </article>
 
@@ -96,7 +109,8 @@ export default function AboutPage() {
           <p className="eyebrow">Accessible interaction</p>
           <h2>3D の選択状態を，説明表示と通常リンクにも反映する</h2>
           <p className="lede">
-            浮遊島は視覚的な入口ですが，3D シーンだけに操作を閉じません．島を選択したときは，モデル側の強調だけでなく，説明パネルやラベルにも状態を反映し，どのページへ進もうとしているのかを分かりやすく示します．
+            浮遊島は視覚的な入口ですが，3D
+            シーンだけに操作を閉じません．島を選択したときは，モデル側の強調だけでなく，説明パネルやラベルにも状態を反映し，どのページへ進もうとしているのかを分かりやすく示します．
           </p>
         </div>
 
@@ -130,7 +144,9 @@ export default function AboutPage() {
           <p className="eyebrow">Information architecture</p>
           <h2>3D と HTML リンクを併用する</h2>
           <p className="lede">
-            3D シーンは印象を作るための入口ですが，操作できない環境でも情報へ到達できることを優先しています．そのため，全ての主要導線はサイドバーと通常の HTML リンクにも配置します．
+            3D
+            シーンは印象を作るための入口ですが，操作できない環境でも情報へ到達できることを優先しています．そのため，全ての主要導線はサイドバーと通常の
+            HTML リンクにも配置します．
           </p>
         </div>
 
@@ -216,40 +232,33 @@ export default function AboutPage() {
           <article className="timeline-item">
             <span>About</span>
             <h2>サイト自体の説明</h2>
-            <p>
-              自己紹介ではなく，3D 表現，導線設計，アクセシビリティ，公開範囲の考え方を説明します．
-            </p>
+            <p>自己紹介ではなく，3D 表現，導線設計，アクセシビリティ，公開範囲の考え方を説明します．</p>
           </article>
 
           <article className="timeline-item">
             <span>Career</span>
             <h2>学歴・実務経験・スキル</h2>
-            <p>
-              学習背景，実務経験，扱える技術を整理し，Web，研究，運用を横断できることを示します．
-            </p>
+            <p>学習背景，実務経験，扱える技術を整理し，Web，研究，運用を横断できることを示します．</p>
           </article>
 
           <article className="timeline-item">
             <span>Research</span>
             <h2>Web 開発とは別軸の技術的強み</h2>
-            <p>
-              数値計算，制御，最適化，問題設定，評価の考え方を，開発経験とは独立した強みとしてまとめます．
-            </p>
+            <p>数値計算，制御，最適化，問題設定，評価の考え方を，開発経験とは独立した強みとしてまとめます．</p>
           </article>
 
           <article className="timeline-item">
             <span>Projects</span>
             <h2>代表的な個人開発</h2>
-            <p>
-              公開可能な制作物を中心に，設計意図，実装範囲，運用上の工夫，得られた成果を説明します．
-            </p>
+            <p>公開可能な制作物を中心に，設計意図，実装範囲，運用上の工夫，得られた成果を説明します．</p>
           </article>
 
           <article className="timeline-item">
             <span>Server</span>
             <h2>公開可能な範囲の自宅サーバ運用</h2>
             <p>
-              Docker Compose，Cloudflare Tunnel，HTTPS，独自ドメインなどの運用経験を説明します．内部 IP，管理 URL，VPN ノード一覧，内部サービス一覧は公開しません．
+              Docker Compose，Cloudflare Tunnel，HTTPS，独自ドメインなどの運用経験を説明します．内部 IP，管理 URL，VPN
+              ノード一覧，内部サービス一覧は公開しません．
             </p>
           </article>
 
@@ -268,7 +277,8 @@ export default function AboutPage() {
           <p className="eyebrow">Accessibility</p>
           <h2>見た目より先に到達可能性を確保する</h2>
           <p className="lede">
-            3D 表現を使っていても，操作環境や身体的条件によって情報に到達できない構成にはしません．選択状態，説明表示，フォーカス表示，通常リンクを組み合わせて，視覚的な演出と到達可能性を両立します．
+            3D
+            表現を使っていても，操作環境や身体的条件によって情報に到達できない構成にはしません．選択状態，説明表示，フォーカス表示，通常リンクを組み合わせて，視覚的な演出と到達可能性を両立します．
           </p>
         </div>
 

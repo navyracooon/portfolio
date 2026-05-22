@@ -1,7 +1,7 @@
-import { HeroScene } from '@/components/HeroScene';
-import { MetricsShowcase } from '@/components/MetricsShowcase';
-import { ScrollReveal } from '@/components/ScrollReveal';
-import styles from './HomePage.module.css';
+import { HeroScene } from "@/components/HeroScene";
+import { MetricsShowcase } from "@/components/MetricsShowcase";
+import { ScrollReveal } from "@/components/ScrollReveal";
+import styles from "./HomePage.module.css";
 
 export function HomePage() {
   return (
@@ -42,9 +42,7 @@ export function HomePage() {
         <div className="section-heading">
           <p className="eyebrow">Activity</p>
           <h2>このサイトでの閲覧と移動</h2>
-          <p className="lede">
-            ページ閲覧数と，トップページの浮遊島から各ページへ移動した回数を表示しています．
-          </p>
+          <p className="lede">ページ閲覧数と，トップページの浮遊島から各ページへ移動した回数を表示しています．</p>
         </div>
         <MetricsShowcase />
       </ScrollReveal>

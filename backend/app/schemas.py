@@ -1,6 +1,36 @@
 from pydantic import BaseModel, EmailStr, Field
 
 
+class Profile(BaseModel):
+    name: str
+    role: str
+    intro: str
+    location: str
+    focus: str
+
+
+class Project(BaseModel):
+    slug: str
+    title: str
+    summary: str
+    impact: str
+    overview: str
+    role: str
+    year: int
+    stack: list[str]
+    highlights: list[str]
+    operations: list[str]
+    github_url: str | None = None
+    live_url: str | None = None
+
+
+class PortfolioPayload(BaseModel):
+    profile: Profile
+    strengths: list[str]
+    projects: list[Project]
+    infrastructure: list[str]
+
+
 class ContactRequest(BaseModel):
     name: str
     email: EmailStr

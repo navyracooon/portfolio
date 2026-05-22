@@ -1,5 +1,7 @@
 import type { PortfolioPayload, Project } from "@/lib/types";
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+
 const fallbackPortfolio: PortfolioPayload = {
   profile: {
     name: "Navy Racooon",
@@ -73,10 +75,7 @@ const fallbackPortfolio: PortfolioPayload = {
         "実験・実装メモを横断して説明可能",
         "3D UI から研究背景へ直接遷移できる入口として配置",
       ],
-      operations: [
-        "研究内容を内部情報や未公開データと混同しない",
-        "公開可能な情報だけでストーリーを構成",
-      ],
+      operations: ["研究内容を内部情報や未公開データと混同しない", "公開可能な情報だけでストーリーを構成"],
       github_url: "https://github.com/navyracooon/research-notes",
     },
     {
@@ -94,10 +93,7 @@ const fallbackPortfolio: PortfolioPayload = {
         "エディタ・シェル・ターミナルの責務を整理",
         "ポートフォリオ上では民家として配置し、日常の基盤を表現",
       ],
-      operations: [
-        "見た目よりも継続運用と更新しやすさを優先",
-        "ローカル環境構成も公開できる範囲だけ切り出して整理",
-      ],
+      operations: ["見た目よりも継続運用と更新しやすさを優先", "ローカル環境構成も公開できる範囲だけ切り出して整理"],
       github_url: "https://github.com/navyracooon/dotfiles",
     },
     {
@@ -115,10 +111,7 @@ const fallbackPortfolio: PortfolioPayload = {
         "ホスト名ベースで公開アプリと内部用途を振り分け",
         "3D シーン上ではサーバーラックとして配置",
       ],
-      operations: [
-        "内部サービスの詳細や管理 URL は公開 UI に出さない",
-        "公開アプリとして説明すべき範囲を限定している",
-      ],
+      operations: ["内部サービスの詳細や管理 URL は公開 UI に出さない", "公開アプリとして説明すべき範囲を限定している"],
       github_url: "https://github.com/navyracooon/portfolio",
     },
   ],
@@ -130,14 +123,34 @@ const fallbackPortfolio: PortfolioPayload = {
   ],
 };
 
+async function fetchJson<T>(path: string): Promise<T | null> {
+  try {
+    const response = await fetch(`${apiBaseUrl}${path}`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return (await response.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
 export async function getPortfolioData(): Promise<PortfolioPayload> {
-  return fallbackPortfolio;
+  return (await fetchJson<PortfolioPayload>("/portfolio")) ?? fallbackPortfolio;
 }
 
 export async function getProjects(): Promise<Project[]> {
-  return fallbackPortfolio.projects;
+  return (await fetchJson<Project[]>("/projects")) ?? fallbackPortfolio.projects;
 }
 
 export async function getProject(slug: string): Promise<Project | null> {
-  return fallbackPortfolio.projects.find((item) => item.slug === slug) ?? null;
+  return (
+    (await fetchJson<Project>(`/projects/${encodeURIComponent(slug)}`)) ??
+    fallbackPortfolio.projects.find((item) => item.slug === slug) ??
+    null
+  );
 }

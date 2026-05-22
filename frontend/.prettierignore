@@ -1,0 +1,8 @@
+.next
+node_modules
+package-lock.json
+next-env.d.ts
+public/models
+public/models_512
+public/models_1024
+public/models_original

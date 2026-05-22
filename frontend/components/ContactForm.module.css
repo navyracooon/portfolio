@@ -31,7 +31,10 @@
   background: linear-gradient(135deg, rgba(255, 198, 109, 0.32), rgba(127, 216, 255, 0.14));
   color: var(--text);
   cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .contactForm button:hover {

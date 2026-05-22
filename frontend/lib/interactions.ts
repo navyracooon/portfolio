@@ -25,13 +25,7 @@ export async function recordPageView(path = window.location.pathname) {
   });
 }
 
-export async function recordIslandClick({
-  islandId,
-  href,
-}: {
-  islandId: string;
-  href: string;
-}) {
+export async function recordIslandClick({ islandId, href }: { islandId: string; href: string }) {
   return fetch(`${apiBaseUrl}/island-clicks`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

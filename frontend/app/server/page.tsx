@@ -6,7 +6,8 @@ export default function ServerPage() {
           <p className="eyebrow">Server</p>
           <h1 className="page-title">自宅サーバでポートフォリオを運用する</h1>
           <p className="lede">
-            Raspberry Pi 上の Docker Compose 環境で，このポートフォリオサイトを運用します．外部公開には Cloudflare Tunnel を使い，自宅サーバのポートを直接インターネットへ公開しない構成にしています．
+            Raspberry Pi 上の Docker Compose 環境で，このポートフォリオサイトを運用します．外部公開には Cloudflare
+            Tunnel を使い，自宅サーバのポートを直接インターネットへ公開しない構成にしています．
           </p>
         </div>
 
@@ -14,14 +15,16 @@ export default function ServerPage() {
           <article className="detail-card">
             <h2>Overview</h2>
             <p>
-              公開サイトは独自ドメインから Cloudflare を経由して自宅サーバ上のコンテナへ到達します．ポートフォリオ本体は Docker network 内でのみ待ち受け，外部から直接アクセスできるポートは持たせません．
+              公開サイトは独自ドメインから Cloudflare を経由して自宅サーバ上のコンテナへ到達します．ポートフォリオ本体は
+              Docker network 内でのみ待ち受け，外部から直接アクセスできるポートは持たせません．
             </p>
           </article>
 
           <article className="detail-card">
             <h2>Purpose</h2>
             <p>
-              アプリケーションを作るだけでなく，ドメイン，HTTPS，コンテナ運用，公開範囲の分離まで含めて，自分で管理できる Web 運用基盤として構成しています．
+              アプリケーションを作るだけでなく，ドメイン，HTTPS，コンテナ運用，公開範囲の分離まで含めて，自分で管理できる
+              Web 運用基盤として構成しています．
             </p>
           </article>
         </div>
@@ -32,7 +35,8 @@ export default function ServerPage() {
           <p className="eyebrow">Public route</p>
           <h2>Cloudflare Tunnel で origin を直接公開しない</h2>
           <p className="lede">
-            外部からのアクセスは Cloudflare DNS / CDN と Cloudflare Tunnel を通し，home-pi 上の cloudflared コンテナから portfolio コンテナへ転送します．
+            外部からのアクセスは Cloudflare DNS / CDN と Cloudflare Tunnel を通し，home-pi 上の cloudflared コンテナから
+            portfolio コンテナへ転送します．
           </p>
         </div>
 
@@ -41,7 +45,9 @@ export default function ServerPage() {
             <span>Visitor</span>
             <h2>独自ドメインへアクセス</h2>
             <p>
-              閲覧者は navyracooon.com または www.navyracooon.com からポートフォリオへアクセスします．公開する入口は通常の Web サイトとして見えるようにし，内部構成は表に出しません．
+              閲覧者は navyracooon.com または www.navyracooon.com
+              からポートフォリオへアクセスします．公開する入口は通常の Web
+              サイトとして見えるようにし，内部構成は表に出しません．
             </p>
           </article>
 
@@ -49,7 +55,8 @@ export default function ServerPage() {
             <span>Cloudflare</span>
             <h2>DNS / CDN / HTTPS を入口にする</h2>
             <p>
-              ドメインの名前解決と外部公開の入口は Cloudflare 側に集約します．ブラウザから見える公開面は Cloudflare に置き，自宅サーバ側のポート開放に依存しない構成にします．
+              ドメインの名前解決と外部公開の入口は Cloudflare 側に集約します．ブラウザから見える公開面は Cloudflare
+              に置き，自宅サーバ側のポート開放に依存しない構成にします．
             </p>
           </article>
 
@@ -57,7 +64,8 @@ export default function ServerPage() {
             <span>Tunnel</span>
             <h2>cloudflared から内部コンテナへ接続する</h2>
             <p>
-              home-pi 上で cloudflared コンテナを動かし，Cloudflare Tunnel 経由で portfolio コンテナへ接続します．portfolio コンテナは内部ポートだけを公開し，ホスト側の ports は使いません．
+              home-pi 上で cloudflared コンテナを動かし，Cloudflare Tunnel 経由で portfolio
+              コンテナへ接続します．portfolio コンテナは内部ポートだけを公開し，ホスト側の ports は使いません．
             </p>
           </article>
 
@@ -65,7 +73,8 @@ export default function ServerPage() {
             <span>Application</span>
             <h2>portfolio コンテナでサイトを提供する</h2>
             <p>
-              Next.js アプリケーションを portfolio コンテナとして動かし，Docker network 内の 3000 番ポートで受けます．外部からは Cloudflare Tunnel 経由でのみ到達できるようにします．
+              Next.js アプリケーションを portfolio コンテナとして動かし，Docker network 内の 3000
+              番ポートで受けます．外部からは Cloudflare Tunnel 経由でのみ到達できるようにします．
             </p>
           </article>
         </div>
@@ -76,7 +85,8 @@ export default function ServerPage() {
           <p className="eyebrow">Architecture</p>
           <h2>公開サイトと内部アクセス経路を分離する</h2>
           <p className="lede">
-            ポートフォリオ公開用の経路と，内部管理・VPN 用の経路は分けて扱います．Headscale は既存の構成を維持し，ポートフォリオとは別の役割として運用します．
+            ポートフォリオ公開用の経路と，内部管理・VPN 用の経路は分けて扱います．Headscale
+            は既存の構成を維持し，ポートフォリオとは別の役割として運用します．
           </p>
         </div>
 
@@ -134,7 +144,8 @@ export default function ServerPage() {
           <p className="eyebrow">Security design</p>
           <h2>自宅サーバの公開面を小さく保つ</h2>
           <p className="lede">
-            ポートフォリオを自宅サーバで運用しながら，origin を直接公開しないことを重視しています．外部公開は Cloudflare Tunnel に集約し，管理用途の接続は LAN または Headscale 経由に限定します．
+            ポートフォリオを自宅サーバで運用しながら，origin を直接公開しないことを重視しています．外部公開は Cloudflare
+            Tunnel に集約し，管理用途の接続は LAN または Headscale 経由に限定します．
           </p>
         </div>
 
@@ -142,28 +153,32 @@ export default function ServerPage() {
           <article className="detail-card">
             <h2>No public port</h2>
             <p>
-              ポートフォリオ用コンテナはホスト側にポートを公開しません．外部から直接 portfolio コンテナへ到達するのではなく，Cloudflare Tunnel を経由してアクセスする構成にします．
+              ポートフォリオ用コンテナはホスト側にポートを公開しません．外部から直接 portfolio
+              コンテナへ到達するのではなく，Cloudflare Tunnel を経由してアクセスする構成にします．
             </p>
           </article>
 
           <article className="detail-card">
             <h2>Private administration</h2>
             <p>
-              SSH は従来通り LAN または Headscale 経由に限定します．管理作業のために SSH や管理画面を一般公開する構成にはしません．
+              SSH は従来通り LAN または Headscale 経由に限定します．管理作業のために SSH
+              や管理画面を一般公開する構成にはしません．
             </p>
           </article>
 
           <article className="detail-card">
             <h2>Service separation</h2>
             <p>
-              一般公開するポートフォリオサイトと，内部アクセスのための Headscale は分離して扱います．公開サイトから内部サービスの状態を見せることはしません．
+              一般公開するポートフォリオサイトと，内部アクセスのための Headscale
+              は分離して扱います．公開サイトから内部サービスの状態を見せることはしません．
             </p>
           </article>
 
           <article className="detail-card">
             <h2>Public boundary</h2>
             <p>
-              ポートフォリオでは，運用設計の考え方だけを説明します．内部 IP，VPN ノード情報，管理 URL，内部サービス一覧，IoT ログは公開しません．
+              ポートフォリオでは，運用設計の考え方だけを説明します．内部 IP，VPN ノード情報，管理
+              URL，内部サービス一覧，IoT ログは公開しません．
             </p>
           </article>
         </div>
@@ -286,14 +301,16 @@ export default function ServerPage() {
           <article className="detail-card">
             <h2>Application perspective</h2>
             <p>
-              Web アプリケーションを公開するには，実装だけでなく，ドメイン，HTTPS，デプロイ，ログ，更新，障害時の確認手順が必要です．自宅サーバで運用することで，それらを一連の経験として扱えます．
+              Web
+              アプリケーションを公開するには，実装だけでなく，ドメイン，HTTPS，デプロイ，ログ，更新，障害時の確認手順が必要です．自宅サーバで運用することで，それらを一連の経験として扱えます．
             </p>
           </article>
 
           <article className="detail-card">
             <h2>Infrastructure perspective</h2>
             <p>
-              Cloudflare Tunnel を使うことで，自宅サーバの origin を直接公開せずに一般公開サイトを提供できます．公開サイトと内部向けアクセス経路を分けることで，個人開発でも安全性を意識した構成にできます．
+              Cloudflare Tunnel を使うことで，自宅サーバの origin
+              を直接公開せずに一般公開サイトを提供できます．公開サイトと内部向けアクセス経路を分けることで，個人開発でも安全性を意識した構成にできます．
             </p>
           </article>
         </div>

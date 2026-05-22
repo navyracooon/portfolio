@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useState } from 'react';
-import styles from './FlipCounter.module.css';
+import { useEffect, useMemo, useState } from "react";
+import styles from "./FlipCounter.module.css";
 
 type FlipCounterProps = {
   value: number;
@@ -12,20 +12,20 @@ type FlipCounterProps = {
 };
 
 function formatCounterValue(value: number) {
-  return new Intl.NumberFormat('en-US').format(value);
+  return new Intl.NumberFormat("en-US").format(value);
 }
 
 function createScrambledValue(target: string) {
   return target
-    .split('')
+    .split("")
     .map((character) => {
-      if (character === ',') {
-        return ',';
+      if (character === ",") {
+        return ",";
       }
 
       return String(Math.floor(Math.random() * 10));
     })
-    .join('');
+    .join("");
 }
 
 function DigitCard({ digit, index, refreshKey }: { digit: string; index: number; refreshKey: number }) {
@@ -38,13 +38,7 @@ function DigitCard({ digit, index, refreshKey }: { digit: string; index: number;
   );
 }
 
-export function FlipCounter({
-  value,
-  refreshKey,
-  label,
-  note,
-  durationMs = 500,
-}: FlipCounterProps) {
+export function FlipCounter({ value, refreshKey, label, note, durationMs = 500 }: FlipCounterProps) {
   const targetValue = useMemo(() => {
     return formatCounterValue(value);
   }, [value]);
@@ -87,7 +81,7 @@ export function FlipCounter({
     };
   }, [targetValue, refreshKey, durationMs]);
 
-  const characters = useMemo(() => displayValue.split(''), [displayValue]);
+  const characters = useMemo(() => displayValue.split(""), [displayValue]);
   const animationKey = `${refreshKey}-${displayValue}`;
 
   return (
@@ -95,7 +89,7 @@ export function FlipCounter({
       <p className="eyebrow">{label}</p>
       <div className={styles.flipCounter} aria-label={`${label}: ${targetValue}`} aria-busy={isAnimating}>
         {characters.map((character, index) =>
-          character === ',' ? (
+          character === "," ? (
             <span key={`comma-${index}`} className={styles.flipComma}>
               ,
             </span>

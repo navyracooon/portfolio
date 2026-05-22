@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import type { PropsWithChildren } from 'react';
-import { useEffect, useState } from 'react';
-import { PageViewTracker } from '@/components/PageViewTracker';
-import { primaryNavItems } from '@/lib/siteNavigation';
-import styles from './SiteFrame.module.css';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { PropsWithChildren } from "react";
+import { useEffect, useState } from "react";
+import { PageViewTracker } from "@/components/PageViewTracker";
+import { primaryNavItems } from "@/lib/siteNavigation";
+import styles from "./SiteFrame.module.css";
 
 function isActive(pathname: string, href: string) {
-  if (href === '/') {
-    return pathname === '/';
+  if (href === "/") {
+    return pathname === "/";
   }
 
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -30,13 +30,13 @@ export function SiteFrame({ children }: PropsWithChildren) {
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         setMenuOpen(false);
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [menuOpen]);
 
   return (
@@ -49,7 +49,7 @@ export function SiteFrame({ children }: PropsWithChildren) {
         <button
           type="button"
           className={styles.menuToggle}
-          aria-label={menuOpen ? 'ナビゲーションを閉じる' : 'ナビゲーションを開く'}
+          aria-label={menuOpen ? "ナビゲーションを閉じる" : "ナビゲーションを開く"}
           aria-controls="site-sidebar"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
@@ -67,7 +67,12 @@ export function SiteFrame({ children }: PropsWithChildren) {
           <aside id="site-sidebar" className={styles.sidebar} aria-label="Primary navigation">
             <div className={styles.sidebarHeading}>
               <p className="eyebrow">Navigation</p>
-              <button type="button" className={styles.sidebarClose} onClick={() => setMenuOpen(false)} aria-label="ナビゲーションを閉じる">
+              <button
+                type="button"
+                className={styles.sidebarClose}
+                onClick={() => setMenuOpen(false)}
+                aria-label="ナビゲーションを閉じる"
+              >
                 Close
               </button>
             </div>
@@ -97,18 +102,16 @@ export function SiteFrame({ children }: PropsWithChildren) {
                     key={item.key}
                     href={item.href}
                     className={active ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink}
-                    aria-current={active ? 'page' : undefined}
+                    aria-current={active ? "page" : undefined}
                   >
                     <span className={styles.navLabel}>{item.label}</span>
-                    <span className={styles.navMeta}>{active ? 'Current' : item.short}</span>
+                    <span className={styles.navMeta}>{active ? "Current" : item.short}</span>
                   </Link>
                 );
               })}
             </nav>
 
-            <p className={styles.sidebarNote}>
-              3D 操作が使えない場合も、このメニューから全ページへ移動できます。
-            </p>
+            <p className={styles.sidebarNote}>3D 操作が使えない場合も、このメニューから全ページへ移動できます。</p>
           </aside>
         ) : null}
 

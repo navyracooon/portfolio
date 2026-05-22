@@ -58,7 +58,13 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
           ))}
         </ul>
         <div className="cta-row">
-          <TrackedLink href="/projects" className="button-secondary" eventType="detail_opened" targetType="navigation" targetSlug="projects">
+          <TrackedLink
+            href="/projects"
+            className="button-secondary"
+            eventType="detail_opened"
+            targetType="navigation"
+            targetSlug="projects"
+          >
             Back to projects
           </TrackedLink>
         </div>

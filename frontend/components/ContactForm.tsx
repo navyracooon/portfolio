@@ -70,7 +70,13 @@ export function ContactForm() {
       <button type="submit" disabled={state.status === "submitting"}>
         {state.status === "submitting" ? "Sending..." : "Send message"}
       </button>
-      {state.message ? <p className={`${styles.formMessage} ${state.status === "success" ? styles.success : state.status === "error" ? styles.error : ""}`}>{state.message}</p> : null}
+      {state.message ? (
+        <p
+          className={`${styles.formMessage} ${state.status === "success" ? styles.success : state.status === "error" ? styles.error : ""}`}
+        >
+          {state.message}
+        </p>
+      ) : null}
     </form>
   );
 }

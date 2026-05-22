@@ -4,7 +4,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Navy Racooon | Floating Portfolio",
-  description: "Three.js floating island portfolio built with Next.js, TypeScript, React Three Fiber, drei, and Framer Motion.",
+  description:
+    "Three.js floating island portfolio built with Next.js, TypeScript, React Three Fiber, drei, and Framer Motion.",
 };
 
 export default function RootLayout({

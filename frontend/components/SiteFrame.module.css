@@ -15,7 +15,7 @@
 }
 
 .topbarBrand {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: lowercase;
@@ -104,11 +104,14 @@
   border: 1px solid rgba(127, 216, 255, 0.12);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.035);
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .navLink::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 8px;
   top: 16px;

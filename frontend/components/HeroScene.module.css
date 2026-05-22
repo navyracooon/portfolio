@@ -23,9 +23,7 @@
   padding: 22px;
   border: 1px solid var(--line);
   border-radius: 30px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 42%),
-    var(--panel);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 42%), var(--panel);
   box-shadow: var(--shadow);
   backdrop-filter: blur(20px);
 }
@@ -40,7 +38,7 @@
 }
 
 .objectPopupSelected::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;

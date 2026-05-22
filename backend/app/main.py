@@ -1,19 +1,26 @@
-from collections import Counter
-from datetime import UTC, datetime
-from threading import Lock
-
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.data import PORTFOLIO, PROJECTS, get_project
 from app.schemas import (
     ContactRequest,
     ContactResponse,
-    CountItem,
     IslandClickRequest,
     IslandClickResponse,
     MetricsSummaryResponse,
     PageViewRequest,
     PageViewResponse,
+    PortfolioPayload,
+    Project,
+)
+from app.storage import (
+    get_metrics_summary as read_metrics_summary,
+)
+from app.storage import (
+    init_db,
+    insert_contact_submission,
+    insert_island_click,
+    insert_page_view,
 )
 
 app = FastAPI(
@@ -33,16 +40,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-_metrics_lock = Lock()
-_page_views: list[dict[str, object]] = []
-_island_clicks: list[dict[str, object]] = []
-_contact_submissions: list[ContactRequest] = []
-_next_page_view_id = 1
-_next_island_click_id = 1
-
-
-def _now_iso() -> str:
-    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+init_db()
 
 
 def _user_agent(payload_user_agent: str | None, request: Request) -> str | None:
@@ -54,20 +52,33 @@ def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
 
 
+@app.get("/portfolio", response_model=PortfolioPayload)
+def get_portfolio() -> PortfolioPayload:
+    return PORTFOLIO
+
+
+@app.get("/projects", response_model=list[Project])
+def list_projects() -> list[Project]:
+    return PROJECTS
+
+
+@app.get("/projects/{slug}", response_model=Project)
+def get_project_detail(slug: str) -> Project:
+    project = get_project(slug)
+
+    if project is None:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    return project
+
+
 @app.post("/page-views", response_model=PageViewResponse)
 def record_page_view(payload: PageViewRequest, request: Request) -> PageViewResponse:
-    global _next_page_view_id
-
-    with _metrics_lock:
-        event = {
-            "id": _next_page_view_id,
-            "path": payload.path,
-            "session_id": payload.session_id,
-            "user_agent": _user_agent(payload.user_agent, request),
-            "created_at": _now_iso(),
-        }
-        _page_views.append(event)
-        _next_page_view_id += 1
+    event = insert_page_view(
+        path=payload.path,
+        session_id=payload.session_id,
+        user_agent=_user_agent(payload.user_agent, request),
+    )
 
     return PageViewResponse(
         id=event["id"],
@@ -78,20 +89,13 @@ def record_page_view(payload: PageViewRequest, request: Request) -> PageViewResp
 
 @app.post("/island-clicks", response_model=IslandClickResponse)
 def record_island_click(payload: IslandClickRequest, request: Request) -> IslandClickResponse:
-    global _next_island_click_id
-
-    with _metrics_lock:
-        event = {
-            "id": _next_island_click_id,
-            "island_id": payload.island_id,
-            "href": payload.href,
-            "session_id": payload.session_id,
-            "path": payload.path,
-            "user_agent": _user_agent(payload.user_agent, request),
-            "created_at": _now_iso(),
-        }
-        _island_clicks.append(event)
-        _next_island_click_id += 1
+    event = insert_island_click(
+        island_id=payload.island_id,
+        href=payload.href,
+        session_id=payload.session_id,
+        path=payload.path,
+        user_agent=_user_agent(payload.user_agent, request),
+    )
 
     return IslandClickResponse(
         id=event["id"],
@@ -103,21 +107,12 @@ def record_island_click(payload: IslandClickRequest, request: Request) -> Island
 
 @app.get("/metrics/summary", response_model=MetricsSummaryResponse)
 def get_metrics_summary() -> MetricsSummaryResponse:
-    with _metrics_lock:
-        page_view_counts = Counter(str(event["path"]) for event in _page_views)
-        island_click_counts = Counter(str(event["island_id"]) for event in _island_clicks)
-
-    return MetricsSummaryResponse(
-        total_page_views=sum(page_view_counts.values()),
-        total_island_clicks=sum(island_click_counts.values()),
-        page_views=[CountItem(key=key, count=count) for key, count in sorted(page_view_counts.items())],
-        island_clicks=[CountItem(key=key, count=count) for key, count in sorted(island_click_counts.items())],
-    )
+    return read_metrics_summary()
 
 
 @app.post("/contact", response_model=ContactResponse)
 def submit_contact(payload: ContactRequest) -> ContactResponse:
-    _contact_submissions.append(payload)
+    insert_contact_submission(payload)
     return ContactResponse(
         status="accepted",
         message="Thanks. Your message has been queued for review.",

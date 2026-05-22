@@ -46,3 +46,42 @@ tasks:
     desc: Docker イメージをビルド
     cmds:
       - docker compose build
+
+  lint:
+    desc: フロントエンドとバックエンドの lint を実行
+    cmds:
+      - task: lint:frontend
+      - task: lint:backend
+
+  lint:frontend:
+    desc: ESLint と Prettier check を実行
+    dir: frontend
+    cmds:
+      - npm run lint
+      - npm run format:check
+
+  lint:backend:
+    desc: Ruff check と format check を実行
+    dir: backend
+    cmds:
+      - uv run ruff check .
+      - uv run ruff format --check .
+
+  format:
+    desc: フロントエンドとバックエンドを format
+    cmds:
+      - task: format:frontend
+      - task: format:backend
+
+  format:frontend:
+    desc: Prettier を実行
+    dir: frontend
+    cmds:
+      - npm run format
+
+  format:backend:
+    desc: Ruff format と import fix を実行
+    dir: backend
+    cmds:
+      - uv run ruff check --fix .
+      - uv run ruff format .
