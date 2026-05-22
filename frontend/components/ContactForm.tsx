@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { getPublicApiBaseUrl } from "@/lib/apiBase";
 import styles from "./ContactForm.module.css";
 
 type FormState = {
@@ -13,7 +14,7 @@ export function ContactForm() {
   const [state, setState] = useState<FormState>({ status: "idle", message: "" });
 
   async function handleSubmit(formData: FormData) {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+    const apiBaseUrl = getPublicApiBaseUrl();
 
     setState({ status: "submitting", message: "" });
 
@@ -26,6 +27,8 @@ export function ContactForm() {
           email: formData.get("email"),
           company: formData.get("company") || null,
           message: formData.get("message"),
+          website: formData.get("website") || null,
+          captcha_token: formData.get("captcha_token") || null,
         }),
       });
 
@@ -63,6 +66,11 @@ export function ContactForm() {
         Company
         <input name="company" type="text" />
       </label>
+      <label className={styles.honeypot} aria-hidden="true">
+        Website
+        <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </label>
+      <input name="captcha_token" type="hidden" />
       <label>
         Message
         <textarea name="message" rows={6} required />

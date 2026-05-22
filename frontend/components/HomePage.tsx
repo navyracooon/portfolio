@@ -42,7 +42,7 @@ export function HomePage() {
         <div className="section-heading">
           <p className="eyebrow">Activity</p>
           <h2>このサイトでの閲覧と移動</h2>
-          <p className="lede">ページ閲覧数と，トップページの浮遊島から各ページへ移動した回数を表示しています．</p>
+          <p className="lede">ページ閲覧数と，トップページで浮遊島を選択した回数を表示しています．</p>
         </div>
         <MetricsShowcase />
       </ScrollReveal>

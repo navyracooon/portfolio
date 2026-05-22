@@ -60,7 +60,7 @@ export function MetricsShowcase() {
         value={metrics.islandClicks}
         refreshKey={refreshCycle}
         label="Island clicks"
-        note="トップページの浮遊島から各ページへ移動した回数です．"
+        note="トップページで浮遊島を選択した回数です．"
       />
     </div>
   );

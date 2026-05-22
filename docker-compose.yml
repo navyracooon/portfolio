@@ -15,6 +15,7 @@ services:
       PYTHONUNBUFFERED: "1"
       UV_LINK_MODE: copy
       PORTFOLIO_DB_PATH: /data/portfolio.sqlite3
+      PORTFOLIO_ALLOWED_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
 
   frontend:
     build:
@@ -30,7 +31,8 @@ services:
       - ./frontend:/app
       - frontend-node_modules:/app/node_modules
     environment:
-      NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8000
+      API_INTERNAL_BASE_URL: http://backend:8000
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
       WATCHPACK_POLLING: "true"
 
 volumes:

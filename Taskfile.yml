@@ -11,6 +11,7 @@ tasks:
     desc: Next.js 開発サーバを起動
     dir: frontend
     env:
+      API_INTERNAL_BASE_URL: http://127.0.0.1:8000
       NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8000
     cmds:
       - npm run dev
@@ -66,6 +67,28 @@ tasks:
     cmds:
       - uv run ruff check .
       - uv run ruff format --check .
+
+  test:
+    desc: フロントエンドとバックエンドの smoke test を実行
+    cmds:
+      - task: test:backend
+      - task: test:frontend
+
+  test:backend:
+    desc: FastAPI endpoint test を実行
+    dir: backend
+    cmds:
+      - uv run python -m unittest discover -s tests
+
+  test:frontend:
+    desc: Next.js 主要ページの smoke test を実行
+    dir: frontend
+    env:
+      API_INTERNAL_BASE_URL: http://127.0.0.1:8000
+      NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8000
+      NEXT_TELEMETRY_DISABLED: "1"
+    cmds:
+      - npm test
 
   format:
     desc: フロントエンドとバックエンドを format

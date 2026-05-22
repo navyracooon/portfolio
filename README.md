@@ -50,16 +50,33 @@ FastAPI は `http://localhost:8000` で起動します。
 
 ## Environment Variables
 
-フロントエンドは API のベース URL を以下で上書きできます。
+フロントエンドはサーバ側 fetch とブラウザ側 fetch で API URL を分けています。
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+API_INTERNAL_BASE_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 ```
+
+Docker Compose では SSR から `http://backend:8000` を使い、ブラウザからは `http://localhost:8000` を使います。本番では `NEXT_PUBLIC_API_BASE_URL=https://api.example.com` のように公開 API ドメインを指定します。
+
+バックエンドの公開 API 設定:
+
+```bash
+PORTFOLIO_ALLOWED_ORIGINS=https://example.com,https://www.example.com
+PORTFOLIO_REQUIRE_ORIGIN=true
+PORTFOLIO_ANALYTICS_RATE_LIMIT=120
+PORTFOLIO_ANALYTICS_RATE_WINDOW_SECONDS=60
+PORTFOLIO_CONTACT_RATE_LIMIT=5
+PORTFOLIO_CONTACT_RATE_WINDOW_SECONDS=3600
+PORTFOLIO_CAPTCHA_SECRET_KEY=
+```
+
+`PORTFOLIO_CAPTCHA_SECRET_KEY` を設定すると、問い合わせ API は `captcha_token` を必須にし、`PORTFOLIO_CAPTCHA_VERIFY_URL` で検証します。未設定の開発環境では rate limit、Origin 検査、honeypot のみを使います。
 
 ## Notes
 
 - API が起動していない場合でも、フロントエンドはフォールバックデータで表示されます。
-- 実績データは [backend/app/data.py](/Users/navyracooon/projects/portfolio/backend/app/data.py) に置いてあるので、そのまま書き換えれば内容を差し替えられます。
+- 実績データは [backend/app/data.py](/Users/navyracooon/projects/portfolio/backend/app/data.py) に集約しています。フロントエンドの fallback は API 障害時の最小表示だけです。
 - ページ閲覧、島クリック、問い合わせは SQLite に保存されます。Docker 起動時は `backend-data` volume、ローカル起動時は `PORTFOLIO_DB_PATH` 未指定なら `/tmp/portfolio-api.sqlite3` を使います。
 - フロントエンドは ESLint / Prettier、バックエンドは Ruff で lint / format します。
 
@@ -67,6 +84,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 
 ```bash
 task lint
+task test
 task format
 ```
 
@@ -80,6 +98,10 @@ npm run format:check
 cd backend
 uv run ruff check .
 uv run ruff format --check .
+uv run python -m unittest discover -s tests
+
+cd frontend
+npm test
 ```
 
 ## Architecture
