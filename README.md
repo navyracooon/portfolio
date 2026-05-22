@@ -1,6 +1,6 @@
 # Portfolio Monorepo
 
-Nix で開発環境を固定しつつ、`frontend` に Next.js、`backend` に FastAPI を置いたポートフォリオです。フロントは Three.js ベースのビジュアル演出を含み、バックエンドからプロフィール情報と制作実績を取得します。
+Nix で開発環境を固定しつつ、`frontend` に Next.js、`backend` に FastAPI を置いたポートフォリオです。フロントは Three.js ベースのビジュアル演出を含み、本文データは frontend 側の静的コンテンツとして管理します。バックエンドは問い合わせ、ページ閲覧、操作ログなどのサーバ側処理を担当します。
 
 ## Stack
 
@@ -17,7 +17,8 @@ Nix で開発環境を固定しつつ、`frontend` に Next.js、`backend` に F
 │   └── app
 └── frontend
     ├── app
-    └── components
+    ├── components
+    └── content
 ```
 
 ## Setup
@@ -50,14 +51,13 @@ FastAPI は `http://localhost:8000` で起動します。
 
 ## Environment Variables
 
-フロントエンドはサーバ側 fetch とブラウザ側 fetch で API URL を分けています。
+フロントエンド本文は静的コンテンツとしてビルドに含めます。ブラウザからメトリクス・問い合わせ API へ送信するため、公開 API URL を指定します。
 
 ```bash
-API_INTERNAL_BASE_URL=http://127.0.0.1:8000
 NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 ```
 
-Docker Compose では SSR から `http://backend:8000` を使い、ブラウザからは `http://localhost:8000` を使います。本番では `NEXT_PUBLIC_API_BASE_URL=https://api.example.com` のように公開 API ドメインを指定します。
+Docker Compose ではブラウザから `http://localhost:8000` を使います。本番では `NEXT_PUBLIC_API_BASE_URL=https://api.example.com` のように公開 API ドメインを指定します。
 
 バックエンドの公開 API 設定:
 
@@ -75,8 +75,7 @@ PORTFOLIO_CAPTCHA_SECRET_KEY=
 
 ## Notes
 
-- API が起動していない場合でも、フロントエンドはフォールバックデータで表示されます。
-- 実績データは [backend/app/data.py](/Users/navyracooon/projects/portfolio/backend/app/data.py) に集約しています。フロントエンドの fallback は API 障害時の最小表示だけです。
+- Projects の本文データは [frontend/content/projects.ts](/Users/navyracooon/projects/portfolio/frontend/content/projects.ts) に集約しています。
 - ページ閲覧、島クリック、問い合わせは SQLite に保存されます。Docker 起動時は `backend-data` volume、ローカル起動時は `PORTFOLIO_DB_PATH` 未指定なら `/tmp/portfolio-api.sqlite3` を使います。
 - フロントエンドは ESLint / Prettier、バックエンドは Ruff で lint / format します。
 

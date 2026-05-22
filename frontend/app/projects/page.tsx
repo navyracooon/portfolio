@@ -1,15 +1,19 @@
-import { TrackedLink } from "@/components/TrackedLink";
-import { getProjects } from "@/lib/api";
+import Link from "next/link";
 
-export default async function ProjectsPage() {
-  const projects = await getProjects();
+import { getProjects } from "@/lib/projects";
+
+export default function ProjectsPage() {
+  const projects = getProjects();
 
   return (
     <main className="page-shell inner-page">
       <section className="panel">
         <div className="section-heading">
           <p className="eyebrow">Projects</p>
-          <h1 className="page-title">公開ポートフォリオとして見せる制作実績</h1>
+          <h1 className="page-title">公開可能な制作実績</h1>
+          <p className="lede">
+            個人開発，研究，自宅サーバ運用，開発環境整備など，外部に説明しやすい形で整理できる実績を掲載しています．
+          </p>
         </div>
         <div className="project-grid">
           {projects.map((project) => (
@@ -28,15 +32,9 @@ export default async function ProjectsPage() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <TrackedLink
-                href={`/projects/${project.slug}`}
-                className="button-secondary inline-button"
-                eventType="detail_opened"
-                targetType="project"
-                targetSlug={project.slug}
-              >
+              <Link href={`/projects/${project.slug}`} className="button-secondary inline-button">
                 Open detail
-              </TrackedLink>
+              </Link>
             </article>
           ))}
         </div>

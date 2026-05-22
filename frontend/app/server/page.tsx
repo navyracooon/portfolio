@@ -200,8 +200,8 @@ export default function ServerPage() {
               <li>トップページ</li>
               <li>プロジェクト一覧</li>
               <li>プロジェクト詳細</li>
-              <li>技術記事</li>
-              <li>研究，経歴，自宅サーバ運用の説明</li>
+              <li>研究，経歴，自宅サーバ運用の説明ページ</li>
+              <li>問い合わせページ</li>
             </ul>
           </article>
 

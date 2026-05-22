@@ -8,16 +8,16 @@ export function HomePage() {
     <main className={`page-shell ${styles.homePage}`}>
       <ScrollReveal className={styles.nameSection}>
         <p className="eyebrow">navyracooon</p>
-        <h1 id="welcome-title">Floating islands for technical traces.</h1>
+        <h1 id="welcome-title">Technical work, mapped as floating islands.</h1>
         <p className={`hero-intro ${styles.nameIntro}`}>
-          研究，開発，運用の経験を，それぞれの文脈に分けて辿れるポートフォリオです．
+          Web アプリケーション開発，モバイル開発，研究，自宅サーバ運用を，それぞれの文脈から辿れるポートフォリオです．
         </p>
       </ScrollReveal>
 
       <ScrollReveal className={styles.islandSection}>
         <div className={`section-heading ${styles.islandHeading}`}>
           <p className="eyebrow">Navigation</p>
-          <h2>島を選んで，関心のあるページへ。</h2>
+          <h2>関心のある領域を選んでください．</h2>
         </div>
 
         <div className={styles.sceneFrame}>
@@ -41,8 +41,10 @@ export function HomePage() {
       <ScrollReveal className={styles.counterSection}>
         <div className="section-heading">
           <p className="eyebrow">Activity</p>
-          <h2>このサイトでの閲覧と移動</h2>
-          <p className="lede">ページ閲覧数と，トップページで浮遊島を選択した回数を表示しています．</p>
+          <h2>閲覧状況と操作ログ</h2>
+          <p className="lede">
+            ページ閲覧数と，トップページで浮遊島が選択された回数を表示しています．導線の可視化を目的としており，表示順位の自動変更には使っていません．
+          </p>
         </div>
         <MetricsShowcase />
       </ScrollReveal>

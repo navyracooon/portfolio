@@ -1,11 +1,17 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
-import { TrackedLink } from "@/components/TrackedLink";
-import { getProject } from "@/lib/api";
+import { getProject, getProjectSlugs } from "@/lib/projects";
 
-export default async function ProjectDetailPage({ params }: { params: { slug: string } }) {
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return getProjectSlugs().map((slug) => ({ slug }));
+}
+
+export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
-  const project = await getProject(slug);
+  const project = getProject(slug);
 
   if (!project) {
     notFound();
@@ -58,15 +64,19 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
           ))}
         </ul>
         <div className="cta-row">
-          <TrackedLink
-            href="/projects"
-            className="button-secondary"
-            eventType="detail_opened"
-            targetType="navigation"
-            targetSlug="projects"
-          >
+          <Link href="/projects" className="button-secondary">
             Back to projects
-          </TrackedLink>
+          </Link>
+          {project.githubUrl ? (
+            <a href={project.githubUrl} className="button-secondary" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+          ) : null}
+          {project.liveUrl ? (
+            <a href={project.liveUrl} className="button-secondary" target="_blank" rel="noreferrer">
+              Live site
+            </a>
+          ) : null}
         </div>
       </section>
     </main>

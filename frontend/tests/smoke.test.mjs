@@ -30,7 +30,6 @@ test("production build completes as a page smoke test", async () => {
     cwd: root,
     env: {
       ...process.env,
-      API_INTERNAL_BASE_URL: process.env.API_INTERNAL_BASE_URL ?? "http://127.0.0.1:8000",
       NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000",
       NEXT_TELEMETRY_DISABLED: "1",
     },

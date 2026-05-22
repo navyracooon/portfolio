@@ -4,7 +4,7 @@ const careerTimeline = [
   {
     period: "High School",
     title: "愛知県立岡崎高校",
-    body: "数理系の学習基盤を形成した時期です．現在の工学，情報，数値計算への関心につながる基礎をここで固めました．",
+    body: "数理系科目を中心に学び，現在の工学，情報，数値計算への関心につながる基礎を形成しました．",
   },
   {
     period: "2022.04 - 2026.03",
@@ -49,10 +49,10 @@ export default function CareerPage() {
       <section className="panel detail-panel">
         <div className="section-heading">
           <p className="eyebrow">Career</p>
-          <h1 className="page-title">学歴・実務経験・スキルを時系列で整理する</h1>
+          <h1 className="page-title">学歴・実務経験・研究を横断して整理する</h1>
           <p className="lede">
             Web
-            アプリケーション開発，モバイル開発，研究での数値計算，自宅サーバ運用を別々の経験として切り分けつつ，現在までの技術的な積み上げが分かるように整理します．
+            アプリケーション開発，モバイル開発，研究での数値計算，自宅サーバ運用を，現在までの技術的な積み上げとして整理しています．
           </p>
         </div>
 

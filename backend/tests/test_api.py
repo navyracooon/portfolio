@@ -22,25 +22,10 @@ class PortfolioApiTests(unittest.TestCase):
         self.client = TestClient(app)
         self.headers = {"Origin": "http://testserver"}
 
-    def test_content_endpoints(self) -> None:
+    def test_healthcheck(self) -> None:
         health = self.client.get("/health")
         self.assertEqual(health.status_code, 200)
         self.assertEqual(health.json(), {"status": "ok"})
-
-        portfolio = self.client.get("/portfolio")
-        self.assertEqual(portfolio.status_code, 200)
-        self.assertGreater(len(portfolio.json()["projects"]), 0)
-
-        projects = self.client.get("/projects")
-        self.assertEqual(projects.status_code, 200)
-        self.assertGreater(len(projects.json()), 0)
-
-        project = self.client.get("/projects/portfolio")
-        self.assertEqual(project.status_code, 200)
-        self.assertEqual(project.json()["slug"], "portfolio")
-
-        missing = self.client.get("/projects/not-found")
-        self.assertEqual(missing.status_code, 404)
 
     def test_event_recording_and_summary(self) -> None:
         page_view = self.client.post(

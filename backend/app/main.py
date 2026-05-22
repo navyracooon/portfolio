@@ -1,7 +1,6 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.data import PORTFOLIO, PROJECTS, get_project
 from app.schemas import (
     ContactRequest,
     ContactResponse,
@@ -10,8 +9,6 @@ from app.schemas import (
     MetricsSummaryResponse,
     PageViewRequest,
     PageViewResponse,
-    PortfolioPayload,
-    Project,
 )
 from app.security import (
     enforce_contact_honeypot,
@@ -56,26 +53,6 @@ def _user_agent(payload_user_agent: str | None, request: Request) -> str | None:
 @app.get("/health")
 def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
-
-
-@app.get("/portfolio", response_model=PortfolioPayload)
-def get_portfolio() -> PortfolioPayload:
-    return PORTFOLIO
-
-
-@app.get("/projects", response_model=list[Project])
-def list_projects() -> list[Project]:
-    return PROJECTS
-
-
-@app.get("/projects/{slug}", response_model=Project)
-def get_project_detail(slug: str) -> Project:
-    project = get_project(slug)
-
-    if project is None:
-        raise HTTPException(status_code=404, detail="Project not found")
-
-    return project
 
 
 @app.post("/page-views", response_model=PageViewResponse)

@@ -1,11 +1,3 @@
-export type Profile = {
-  name: string;
-  role: string;
-  intro: string;
-  location: string;
-  focus: string;
-};
-
 export type Project = {
   slug: string;
   title: string;
@@ -14,32 +6,11 @@ export type Project = {
   overview: string;
   role: string;
   year: number;
-  stack: string[];
-  highlights: string[];
-  operations: string[];
-  github_url?: string | null;
-  live_url?: string | null;
-};
-
-export type PortfolioPayload = {
-  profile: Profile;
-  strengths: string[];
-  projects: Project[];
-  infrastructure: string[];
-};
-
-export type ObjectTargetType = "project" | "navigation" | "contact";
-
-export type PortfolioObjectConfig = {
-  slug: string;
-  title: string;
-  description: string;
-  targetType: ObjectTargetType;
-  href: string;
-  technologies: string[];
-  position: [number, number, number];
-  sceneKind: "tower" | "house" | "rack" | "sign";
+  stack: readonly string[];
+  highlights: readonly string[];
+  operations: readonly string[];
   githubUrl?: string;
+  liveUrl?: string;
 };
 
 export type MetricsCountItem = {
