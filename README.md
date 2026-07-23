@@ -75,7 +75,7 @@ PORTFOLIO_CAPTCHA_SECRET_KEY=
 
 ## Notes
 
-- Projects の本文データは [frontend/content/projects.ts](/Users/navyracooon/projects/portfolio/frontend/content/projects.ts) に集約しています。
+- Projects の本文データは [frontend/content/projects.ts](frontend/content/projects.ts) に集約しています。
 - ページ閲覧、島クリック、問い合わせは SQLite に保存されます。Docker 起動時は `backend-data` volume、ローカル起動時は `PORTFOLIO_DB_PATH` 未指定なら `/tmp/portfolio-api.sqlite3` を使います。
 - フロントエンドは ESLint / Prettier、バックエンドは Ruff で lint / format します。
 
@@ -105,4 +105,4 @@ npm test
 
 ## Architecture
 
-- 公開範囲、運用構成、セキュリティ方針は [docs/architecture.md](/Users/navyracooon/projects/portfolio/docs/architecture.md) を参照してください。
+- 公開範囲、運用構成、セキュリティ方針は [docs/architecture.md](docs/architecture.md) を参照してください。
